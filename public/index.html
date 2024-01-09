@@ -12,7 +12,7 @@
         <script>
             function start() {
                 const socket = io("http://localhost:8080");
-                socket.on("updateData", (msg) => {
+                socket.on("updateData", (msg) => { 
                     console.log(msg)
                     document.getElementById("temp").innerText = msg.Sensors[0].Temperature + "°C";
                     document.getElementById("temp").style.setProperty('--p', parseInt(msg.Sensors[0].Temperature))
