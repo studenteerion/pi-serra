@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>rpi-serra</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+        <script>
+            function start() {
+                const socket = io("http://localhost:8080");
+                socket.on("updateData", (msg) => {
+                    console.log(msg)
+                    document.getElementById("temp").innerText = msg.Sensors[0].Temperature + "°C";
+                    document.getElementById("temp").style.setProperty('--p', parseInt(msg.Sensors[0].Temperature))
+                    document.getElementById("umidita").innerText = msg.Sensors[0].Humidity + "%";
+                    document.getElementById("umidita").style.setProperty('--p', parseInt(msg.Sensors[0].Humidity))
+                })
+            }
+        </script>
+        
+    </head>
+    <body onload="start()">
+        <div class="navbar">
+            <a href="/"><button class="btn"><i class="fa fa-home" ></i></button></a>
+            <img src="./resources/logo.jpg" id="logo">
+        </div>
+        <div class="temperatura">
+            <div class="pie" id="temp" style="--p:2;--b:10px;--c:#006fec;"></div>
+            <h2>Temperatura</h2>
+        </div>
+        <div class="umidita">
+            <div class="pie" id="umidita" style="--p:20;--b:10px;--c:#006fec;"></div>
+            <h2>Umidità Aria</h2>
+        </div>
+        <div class="terreno">
+            <div class="pie" style="--p:90;--b:10px;--c:#006fec;">90%</div>
+            <h2>Umidità Terreno</h2>
+        </div>
+        <div class="stream">
+            <h2>no stream available</h2>
+        </div>
+        <script src="" async defer></script>
+    </body>
+    
+</html>
