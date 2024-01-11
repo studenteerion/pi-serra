@@ -15,10 +15,12 @@ let datiSensori
 
 io.on('connection', (socket) => {
 	console.log('a user connected');
+	io.emit("updateData", datiSensori)
 });
 
 server.listen(8080, () => {
 	console.log("Server started at port 8080");
+	
 });
 
 async function getSensorData() {
@@ -28,16 +30,20 @@ async function getSensorData() {
 			method: "get",
 		});
 
-		datiSensori = response.data
-
-		io.emit("updateData", datiSensori)
-
-		if (datiSensori.Sensors[0].Temperature <= 30)
-			accendiLuce()
-		else
-			spegniLuce()
-		
-
+		if (!datiSensori || datiSensori.Sensors[0].Temperature != response.data.Sensors[0].Temperature || datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity) {
+			if (datiSensori) {
+				console.log(datiSensori.Sensors[0])
+				console.log(response.data.Sensors[0])
+			}
+				
+			datiSensori = response.data
+			io.emit("updateData", datiSensori)
+	
+			if (datiSensori.Sensors[0].Temperature <= 30)
+				accendiLuce()
+			else
+				spegniLuce()
+		}
 	} catch (err) {
 		console.log(`errore: ${err.message}`)
 	}
@@ -97,4 +103,5 @@ async function spegniLuce() {
 	console.log("Luce spenta")
 }
 
+getSensorData()
 setInterval(getSensorData, 10000)
