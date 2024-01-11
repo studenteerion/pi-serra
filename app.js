@@ -5,6 +5,11 @@ const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io');
 
+
+// json
+const fs = require("fs");
+const readingsJson = './public/data/readings.json'
+
 const server = createServer(app);
 
 const io = new Server(server);
@@ -30,6 +35,29 @@ async function getSensorData() {
 			method: "get",
 		});
 
+		fs.readFile(readingsJson, (error, data) => {
+			if (error) {
+				console.log(error);
+				return;
+			  }
+			const letture = JSON.parse(data);
+		})
+
+		const lettura = {
+			data: new Date(),
+			temperatura: datiSensori.Sensors[0].Temperature,
+			umidità: datiSensori.Sensors[0].Humidity
+		}
+
+		fs.writeFile(readingsJson, lettura, (error) => {
+			if (error) {
+				console.log('An error has occurred ', error);
+				return;
+			}
+			console.log('Data written successfully to disk');
+		})
+
+		console.log(lettura)
 		if (!datiSensori || datiSensori.Sensors[0].Temperature != response.data.Sensors[0].Temperature || datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity) {
 			if (datiSensori) {
 				console.log(datiSensori.Sensors[0])
