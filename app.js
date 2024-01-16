@@ -1,14 +1,18 @@
 const express = require("express");
 const app = express();
 const axios = require("axios").create();
+const mongoose = require('mongoose');
 const { createServer } = require('node:http');
-const { join } = require('node:path');
 const { Server } = require('socket.io');
+const Sensor = require('./dbscheme');
 
+//mongoose.connect('mongodb://localhost:???/databse_name');
 
-// json
+/* // json
 const fs = require("fs");
+const { default: mongoose } = require("mongoose");
 const readingsJson = './public/data/readings.json'
+*/
 
 const server = createServer(app);
 
@@ -35,7 +39,7 @@ async function getSensorData() {
 			method: "get",
 		});
 
-		fs.readFile(readingsJson, (error, data) => {
+		/* fs.readFile(readingsJson, (error, data) => {
 			if (error) {
 				console.log(error);
 				return;
@@ -55,9 +59,18 @@ async function getSensorData() {
 				return;
 			}
 			console.log('Data written successfully to disk');
-		})
+		}) 
 
-		console.log(lettura)
+		try {
+			const newSensorData = new Sensor(response.data)
+			await newSensorData.save()
+		} catch (err) {
+			console.log(err);
+		}	*/
+
+		//Verifica di differenze rispetto ai dati precedenti
+		//Se vero, invio evento tramite websocket
+		
 		if (!datiSensori || datiSensori.Sensors[0].Temperature != response.data.Sensors[0].Temperature || datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity) {
 			if (datiSensori) {
 				console.log(datiSensori.Sensors[0])
