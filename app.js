@@ -6,13 +6,7 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const Sensor = require('./dbscheme');
 
-//mongoose.connect('mongodb://localhost:???/databse_name');
-
-/* // json
-const fs = require("fs");
-const { default: mongoose } = require("mongoose");
-const readingsJson = './public/data/readings.json'
-*/
+mongoose.connect('mongodb://localhost:28080/rpiSerra');
 
 const server = createServer(app);
 
@@ -27,6 +21,22 @@ io.on('connection', (socket) => {
 	io.emit("updateData", datiSensori)
 });
 
+app.get('/api/lastdata', async (req, res) => {
+	try {
+		const sensorData = await Sensor.findOne().sort({Time: -1})
+		res.json(sensorData) 
+	} catch (err) {
+		console.error(`errore: ${err.message}`)
+	}
+})
+
+app.get('/api/alldata', async (req, res) => {
+	const sensorData = await Sensor.find().sort({Time: -1})
+	res.json(sensorData)
+})
+
+
+
 server.listen(8080, () => {
 	console.log("Server started at port 8080");
 	
@@ -39,54 +49,27 @@ async function getSensorData() {
 			method: "get",
 		});
 
-		/* fs.readFile(readingsJson, (error, data) => {
-			if (error) {
-				console.log(error);
-				return;
-			  }
-			const letture = JSON.parse(data);
-		})
-
-		const lettura = {
-			data: new Date(),
-			temperatura: datiSensori.Sensors[0].Temperature,
-			umidità: datiSensori.Sensors[0].Humidity
-		}
-
-		fs.writeFile(readingsJson, lettura, (error) => {
-			if (error) {
-				console.log('An error has occurred ', error);
-				return;
-			}
-			console.log('Data written successfully to disk');
-		}) 
-
-		try {
-			const newSensorData = new Sensor(response.data)
-			await newSensorData.save()
-		} catch (err) {
-			console.log(err);
-		}	*/
-
 		//Verifica di differenze rispetto ai dati precedenti
 		//Se vero, invio evento tramite websocket
 		
 		if (!datiSensori || datiSensori.Sensors[0].Temperature != response.data.Sensors[0].Temperature || datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity) {
-			if (datiSensori) {
-				console.log(datiSensori.Sensors[0])
-				console.log(response.data.Sensors[0])
-			}
-				
 			datiSensori = response.data
 			io.emit("updateData", datiSensori)
-	
+
+			try {
+				const newSensorData = new Sensor(response.data.Sensors[0])
+				await newSensorData.save()
+			} catch (err) {
+				console.error(`errore: ${err.message}`);
+			}
+
 			if (datiSensori.Sensors[0].Temperature <= 30)
 				accendiLuce()
 			else
 				spegniLuce()
 		}
 	} catch (err) {
-		console.log(`errore: ${err.message}`)
+		console.error(`errore: ${err.message}`)
 	}
 }
 
@@ -106,12 +89,12 @@ async function accendiLuce() {
 					method: "get",
 				});
 			} catch (err) {
-				console.log(`errore: ${err.message}`)
+				console.error(`errore: ${err.message}`)
 			}
 		}
 
 	} catch (err) {
-		console.log(`errore: ${err.message}`)
+		console.error(`errore: ${err.message}`)
 	}
 
 	console.log("Luce accesa")
@@ -133,12 +116,12 @@ async function spegniLuce() {
 					method: "get",
 				});
 			} catch (err) {
-				console.log(`errore: ${err.message}`)
+				console.error(`errore: ${err.message}`)
 			}
 		}
 
 	} catch (err) {
-		console.log(`errore: ${err.message}`)
+		console.error(`errore: ${err.message}`)
 	}
 
 	console.log("Luce spenta")
