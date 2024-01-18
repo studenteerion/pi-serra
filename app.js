@@ -146,3 +146,6 @@ async function spegniLuce() {
 
 getSensorData()
 setInterval(getSensorData, 10000)
+
+
+// test github desktop
