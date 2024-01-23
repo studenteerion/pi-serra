@@ -5,22 +5,36 @@ const mongoose = require('mongoose');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const Sensor = require('./dbscheme');
+const bodyParser = require('body-parser')
 
-mongoose.connect('mongodb://localhost:28080/rpiSerra');
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({     
+  extended: true
+}))
 
-const server = createServer(app);
+try {
+	mongoose.connect('mongodb://localhost:28080/rpiSerra');  // connessione al database
+} catch (error) {
+	console.error(`errore: ${err.message}`)
+}
 
-const io = new Server(server);
+const server = createServer(app);  // avvio server express
+
+const io = new Server(server);  // avvio server websocket
 
 app.use(express.static("public"))
+app.set('view engine', 'ejs');
 
+//variabile globale per l'emissione dei dati in API e WS
 let datiSensori
 
 io.on('connection', (socket) => {
 	console.log('a user connected');
+	//emissione dell'evento di update dei dati all'avvio della connessione ws
 	io.emit("updateData", datiSensori)
 });
 
+//ultima lettura nel db
 app.get('/api/lastdata', async (req, res) => {
 	try {
 		const sensorData = await Sensor.findOne().sort({Time: -1})
@@ -30,11 +44,31 @@ app.get('/api/lastdata', async (req, res) => {
 	}
 })
 
+//tutte le letture del db
 app.get('/api/alldata', async (req, res) => {
 	const sensorData = await Sensor.find().sort({Time: -1})
 	res.json(sensorData)
 })
 
+
+let panelData = {onTemperature: 30}
+
+app.get('/pannello', (req, res) => {
+	res.render('pannello.ejs', panelData)
+})
+
+app.post('/update-config-data', (req, res) => {
+	panelData = req.body
+	console.log(panelData);
+	getSensorData()
+	console.log(panelData.onTemperature);
+	
+	if (datiSensori.Sensors[0].Temperature <= panelData.onTemperature)
+		accendiLuce()
+	else
+		spegniLuce()
+	res.render('pannello.ejs', panelData)
+})
 
 
 server.listen(8080, () => {
@@ -63,7 +97,7 @@ async function getSensorData() {
 				console.error(`errore: ${err.message}`);
 			}
 
-			if (datiSensori.Sensors[0].Temperature <= 30)
+			if (datiSensori.Sensors[0].Temperature <= panelData.onTemperature)
 				accendiLuce()
 			else
 				spegniLuce()
