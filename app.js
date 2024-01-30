@@ -6,6 +6,11 @@ const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const config = require('./config.json');
+const path = require("node:path");
+console.log(config);
+
 
 const Database = "mongodb://localhost:28080/rpiSerra";
 const Sensors = "http://192.168.112.54/json";
@@ -34,7 +39,7 @@ const server = createServer(app); // avvio server express
 const io = new Server(server); // avvio server websocket
 
 app.use(express.static("public"));
-app.set("view engine", "ejs");
+//app.set("view engine", "ejs");
 
 //variabile globale per l'emissione dei dati in API e WS
 let datiSensori;
@@ -63,7 +68,33 @@ app.get("/api/alldata", async (req, res) => {
 
 let panelData = { onTemperature: 30};
 
-//pannello per modificare temperatura di attivazione
+
+io.on('connection', (socket) => {
+  // Send the initial panel data to the client
+  socket.emit('panelData', config);
+
+  socket.on('updateConfigData', (data) => {
+    panelData = data;
+    console.log(panelData);
+    
+
+    writeFile(path, JSON.stringify(config, null, 2), (error) => {
+      if (error) {
+        console.log('An error has occurred ', error);
+        return;
+      }
+      console.log('Data written successfully to disk');
+    });
+
+    
+
+    // Send the updated panel data to all connected clients
+    io.emit('panelData', panelData);
+  });
+});
+
+
+/* //pannello per modificare temperatura di attivazione
 app.get("/pannello", (req, res) => {
   res.render("pannello.ejs", panelData);
 });
@@ -80,7 +111,7 @@ app.post("/update-config-data", (req, res) => {
   else 
     spegniLuce();
   res.render("pannello.ejs", panelData);
-});
+}); */
 
 
 //avvio server e ascolto di richieste HTTP
