@@ -11,9 +11,9 @@
         <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
         <script>
             function start() {
-                const socket = io("http://localhost:8080");
+                const socket = io("http://localhost:8080/main-ws");
                 socket.on("updateData", (msg) => { 
-                    console.log(msg)
+                    //console.log(msg)
                     document.getElementById("temp").innerText = msg.Sensors[0].Temperature + "°C";
                     document.getElementById("temp").style.setProperty('--p', parseInt(msg.Sensors[0].Temperature))
                     document.getElementById("umidita").innerText = msg.Sensors[0].Humidity + "%";
@@ -43,7 +43,6 @@
         <div class="stream">
             <h2>no stream available</h2>
         </div>
-        <script src="" async defer></script>
     </body>
     
 </html>

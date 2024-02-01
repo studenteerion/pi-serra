@@ -7,11 +7,10 @@ const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const config = require('./config.json');
-const path = require("node:path");
-console.log(config);
+//const path = require("node:path");
 
-
+const filePath = "./config_files/config.json";
+let config = require(filePath);
 const Database = "mongodb://localhost:28080/rpiSerra";
 const Sensors = "http://192.168.112.54/json";
 const Actuator_status = "http://192.168.112.53/json";
@@ -44,10 +43,10 @@ app.use(express.static("public"));
 //variabile globale per l'emissione dei dati in API e WS
 let datiSensori;
 
-io.on("connection", (socket) => {
+io.of('/main-ws').on("connection", socket => {
   console.log("a user connected");
-  //emissione dell'evento di update dei dati all'avvio della connessione ws
-  io.emit("updateData", datiSensori);
+  //emissione dell'evento di update dei ldati all'avvio della connessione ws
+  socket.emit("updateData", datiSensori);
 });
 
 //ultima lettura nel db
@@ -66,53 +65,32 @@ app.get("/api/alldata", async (req, res) => {
   res.json(sensorData);
 });
 
-let panelData = { onTemperature: 30};
+let isConfigUpdated = false
 
-
-io.on('connection', (socket) => {
+io.of('/pannello').on('connection', socket => {
   // Send the initial panel data to the client
   socket.emit('panelData', config);
-
   socket.on('updateConfigData', (data) => {
-    panelData = data;
-    console.log(panelData);
+    config = data;
+    console.log(config);
     
 
-    writeFile(path, JSON.stringify(config, null, 2), (error) => {
-      if (error) {
-        console.log('An error has occurred ', error);
-        return;
-      }
-      console.log('Data written successfully to disk');
+    fs.writeFile(filePath, JSON.stringify(config, null, 2), (err) => {
+    if (err) {
+    console.error("Errore durante la scrittura del file:", err);
+    return;
+    }
+    else {
+    console.log("Dati salvati correttamente nel file JSON");
+    }
     });
 
-    
-
     // Send the updated panel data to all connected clients
-    io.emit('panelData', panelData);
+    io.emit('panelData', config);
+
+    isConfigUpdated = true
   });
 });
-
-
-/* //pannello per modificare temperatura di attivazione
-app.get("/pannello", (req, res) => {
-  res.render("pannello.ejs", panelData);
-});
-
-//aggiornamento pagina con dai nuovi dopo modifica temperatura attivazione
-app.post("/update-config-data", (req, res) => {
-  panelData = req.body;
-  console.log(panelData);
-  getSensorData();
-  //console.log(panelData.onTemperature);
-
-  if (datiSensori.Sensors[0].Temperature <= panelData.onTemperature)
-    accendiLuce();
-  else 
-    spegniLuce();
-  res.render("pannello.ejs", panelData);
-}); */
-
 
 //avvio server e ascolto di richieste HTTP
 server.listen(8080, () => {
@@ -131,14 +109,12 @@ async function getSensorData() {
     //Verifica di differenze rispetto ai dati precedenti
     //Se vero, invio evento tramite websocket
 
-    if (
-      !datiSensori ||
-      datiSensori.Sensors[0].Temperature !=
-        response.data.Sensors[0].Temperature ||
-      datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity
+    if (!datiSensori ||
+      datiSensori.Sensors[0].Temperature != response.data.Sensors[0].Temperature ||
+      datiSensori.Sensors[0].Humidity != response.data.Sensors[0].Humidity || isConfigUpdated
     ) {
-      datiSensori = response.data;
       io.emit("updateData", datiSensori);
+      datiSensori = response.data
 
       try {
         const newSensorData = new Sensor(response.data.Sensors[0]);
@@ -148,14 +124,18 @@ async function getSensorData() {
         console.error(`Error trying to save to database: ${err}`);
       }
 
-      if (datiSensori.Sensors[0].Temperature <= panelData.onTemperature)
+      if (datiSensori.Sensors[0].Temperature <= config.onTemperature)
         accendiLuce();
       else 
         spegniLuce();
+
+        isConfigUpdated = false
     }
   } catch (err) {
     console.error(`Error in getSensorData: ${err}`);
   }
+
+  setTimeout(getSensorData, config.sensorUpdateFrequency * 1000); //intervallo per richiedere i dati ai sensori
 }
 
 async function statoAttuatore() { // ottenere stato attuatore
@@ -169,12 +149,10 @@ async function statoAttuatore() { // ottenere stato attuatore
 
       return statoLuce;
   } catch (err) {
-    console.error(`errore nella richiesta dello stato dell'attuatore: ${err}`);
+    console.error(`Errore nella richiesta dello stato dell'attuatore: ${err}`);
     return undefined;
   }
 }
-
-
 
 async function accendiLuce() {
   try {
@@ -213,4 +191,3 @@ async function spegniLuce() {
 }
 
 getSensorData(); //invocazione della funzione la prima volta in modo che i dati non siano vuoti appena di accede all'applicazione
-setInterval(getSensorData, 10000); //intervallo per richiedere i dati ai sensori
