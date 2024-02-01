@@ -1,7 +1,14 @@
 import '../App.css';
 import Header from '../components/header';
 
+//axios
+import axios from 'axios';
+
 function Home() {
+    axios.get('http://localhost:8080/api/lastdata').then((response) => {
+        console.log(response.data);
+    });
+
     return (
         <div>
             <Header index={0}/>
