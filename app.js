@@ -61,8 +61,12 @@ app.get("/api/lastdata", async (req, res) => {
 
 //tutte le letture del db
 app.get("/api/alldata", async (req, res) => {
-  const sensorData = await Sensor.find().sort({ Time: -1 });
-  res.json(sensorData);
+  try {
+    const sensorData = await Sensor.find().sort({ Time: -1 });
+    res.json(sensorData);
+  } catch (err) {
+    console.error(`errore: ${err.message}`);
+  }
 });
 
 let isConfigUpdated = false
