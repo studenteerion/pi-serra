@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const cors = require("cors");
 //const path = require("node:path");
 
 const filePath = "./config_files/config.json";
@@ -16,6 +17,11 @@ const Sensors = "http://192.168.112.54/json";
 const Actuator_status = "http://192.168.112.53/json";
 const Actuator_on = "http://192.168.112.53/tools?cmd=gpio%2C0%2C0";
 const Actuator_off = "http://192.168.112.53/tools?cmd=gpio%2C0%2C1";
+
+//CORS
+app.use(cors({
+  origin: '*'
+}));
 
 app.use(bodyParser.json());
 app.use(

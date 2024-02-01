@@ -6,7 +6,13 @@ import axios from 'axios';
 
 function Home() {
     axios.get('http://localhost:8080/api/lastdata').then((response) => {
-        console.log(response.data);
+        const data = response.data;
+        const humidity = document.getElementById('humidity');
+        const temperature = document.getElementById('temperature');
+
+        humidity.innerHTML = data.Humidity + '%';
+        temperature.innerHTML = data.Temperature + '°';
+
     });
 
     return (
@@ -17,11 +23,11 @@ function Home() {
                 <div className='md:col-span-2 grid md:grid-cols-2 gap-1'>
                     <div className=' bg-sky-600 card'>
                         <h3>Temperatura attuale:</h3>
-                        <h2>35°</h2>
+                        <h2 id='temperature'>35°</h2>
                     </div>
                     <div className=' bg-orange-400 card'>
                         <h3>Umidità aria</h3>
-                        <h2>50%</h2>
+                        <h2 id='humidity'>50%</h2>
                     </div>
                     <div className=' bg-emerald-600 card'>
                         <h3>Umidità Terreno</h3>
