@@ -7,21 +7,16 @@ const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const cors = require("cors");
-//const path = require("node:path");
+const passport = require('passport')
 
 const filePath = "./config_files/config.json";
-let config = require(filePath);
 const Database = "mongodb://localhost:28080/rpiSerra";
 const Sensors = "http://192.168.112.54/json";
 const Actuator_status = "http://192.168.112.53/json";
 const Actuator_on = "http://192.168.112.53/tools?cmd=gpio%2C0%2C0";
 const Actuator_off = "http://192.168.112.53/tools?cmd=gpio%2C0%2C1";
 
-//CORS
-app.use(cors({
-  origin: '*'
-}));
+let config = require(filePath);
 
 app.use(bodyParser.json());
 app.use(
@@ -51,7 +46,7 @@ let datiSensori;
 
 io.of('/main-ws').on("connection", socket => {
   console.log("a user connected");
-  //emissione dell'evento di update dei ldati all'avvio della connessione ws
+  //emissione dell'evento di update dei dati all'avvio della connessione ws
   socket.emit("updateData", datiSensori);
 });
 
