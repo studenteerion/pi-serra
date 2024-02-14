@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
 const axios = require("axios").create();
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const passport = require('passport')
+const mongoose=require('mongoose');
 
 const filePath = "./config_files/config.json";
 const Database = "mongodb://localhost:28080/rpiSerra";
@@ -16,7 +16,8 @@ const Actuator_status = "http://192.168.112.53/json";
 const Actuator_on = "http://192.168.112.53/tools?cmd=gpio%2C0%2C0";
 const Actuator_off = "http://192.168.112.53/tools?cmd=gpio%2C0%2C1";
 
-let config = require(filePath);
+const config = require(filePath);
+
 
 app.use(bodyParser.json());
 app.use(
