@@ -1,22 +1,29 @@
 const express = require("express");
 const app = express();
 const axios = require("axios").create();
-//const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 const Sensor = require("./dbscheme");
 const bodyParser = require("body-parser");
 const fs = require("fs");
-const mongoose=require('mongoose');
+require('dotenv').config();
 
-const filePath = "./config_files/config.json";
+filePath = "./panel_config_files/config.json";
+
+const Database = process.env.Database;
+const Sensors = process.env.Sensors;
+const config = require(filePath);
+const light = require('./functions/lights');
+
+/* const filePath = "./config_files/config.json";
 const Database = "mongodb://localhost:28080/rpiSerra";
 const Sensors = "http://192.168.112.54/json";
 const Actuator_status = "http://192.168.112.53/json";
 const Actuator_on = "http://192.168.112.53/tools?cmd=gpio%2C0%2C0";
-const Actuator_off = "http://192.168.112.53/tools?cmd=gpio%2C0%2C1";
+const Actuator_off = "http://192.168.112.53/tools?cmd=gpio%2C0%2C1"; */
 
-const config = require(filePath);
+light.hello();
 
 
 app.use(bodyParser.json());
@@ -131,9 +138,9 @@ async function getSensorData() {
       }
 
       if (datiSensori.Sensors[0].Temperature <= config.onTemperature)
-        accendiLuce();
+        light.accendiLuce();
       else 
-        spegniLuce();
+        light.spegniLuce();
 
         isConfigUpdated = false
     }
@@ -142,58 +149,6 @@ async function getSensorData() {
   }
 
   setTimeout(getSensorData, config.sensorUpdateFrequency * 1000); //intervallo per richiedere i dati ai sensori
-}
-
-async function statoAttuatore() { // ottenere stato attuatore
-    try {
-      const response = await axios({ // risposta
-        url: Actuator_status, // indirizzo stato sensori
-        method: "get",
-      });
-
-      let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
-
-      return statoLuce;
-  } catch (err) {
-    console.error(`Errore nella richiesta dello stato dell'attuatore: ${err}`);
-    return undefined;
-  }
-}
-
-async function accendiLuce() {
-  try {
-    if (await statoAttuatore() == 1) {
-      try {
-        await axios({ // fa spegnere la luce
-          url: Actuator_on,
-          method: "get",
-        });
-        console.log("Luce accesa");
-      } catch (err) {
-        console.error(`Error: ${err.message}`);
-      }
-    }
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
-  }
-}
-
-async function spegniLuce() {
-  try {
-    if (await statoAttuatore() == 0) {
-      try {
-        await axios({ // fa spegnere la luce
-          url: Actuator_off,
-          method: "get",
-        });
-        console.log("Luce spenta");
-      } catch (err) {
-        console.error(`Error: ${err.message}`);
-      }
-    }
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
-  }
 }
 
 getSensorData(); //invocazione della funzione la prima volta in modo che i dati non siano vuoti appena di accede all'applicazione
