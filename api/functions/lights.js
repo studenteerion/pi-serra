@@ -57,8 +57,4 @@ async function spegniLuce() {
   }
 }
 
-function hello(){
-    console.log("HEllo");
-}
-
-module.exports = { accendiLuce, spegniLuce, hello };
+module.exports = { accendiLuce, spegniLuce };

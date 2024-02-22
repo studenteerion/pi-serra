@@ -9,6 +9,8 @@ function Home() {
         const data = response.data;
         const humidity = document.getElementById('humidity');
         const temperature = document.getElementById('temperature');
+        console.log(humidity);
+        console.log(temperature);
 
         humidity.innerHTML = data.Humidity + '%';
         temperature.innerHTML = data.Temperature + '°';

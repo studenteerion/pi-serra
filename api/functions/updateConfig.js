@@ -1,7 +1,9 @@
-const filePath = "../panel_config_files/config.json";
-const config = require(filePath);
+const fs = require("fs");
+const config = require(process.env.filePath);
 
-function getConfig(){
+let isConfigUpdated = false;
+
+function getConfig() {
     return config;
 }
 
@@ -13,8 +15,9 @@ function saveConfig(updatedConfigData) {
         }
         else {
           console.log("Dati salvati correttamente nel file JSON");
+          isConfigUpdated = true
         }
       });  
 }
 
-module.exports = { saveConfig, getConfig }
+module.exports = { saveConfig, getConfig, isConfigUpdated }

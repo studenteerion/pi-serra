@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const Sensor = require("./dbscheme");
 const Database = process.env.Database;
 
@@ -14,15 +13,15 @@ async function connect () {
     });
 }
 
-
-async function getData(findOne){
+async function getData(findOne) {
     try {
         if (findOne){
-            return await Sensor.findOne().sort({ Time: -1 });
+            json = await Sensor.findOne().sort({ Time: -1 });
         }
         else {
-            return await Sensor.find().sort({ Time: -1 });
+            json = await Sensor.find().sort({ Time: -1 });
         }
+        return json;
     }
     catch (err) {
         console.error(`Errore nella richiesta dati dal database: ${err}`);
