@@ -6,15 +6,15 @@ const Actuator_off = process.env.Actuator_off;
 
 
 async function statoAttuatore() { // ottenere stato attuatore
-    try {
-      const response = await axios({ // risposta
-        url: Actuator_status, // indirizzo stato sensori
-        method: "get",
-      });
+  try {
+    const response = await axios({ // risposta
+      url: Actuator_status, // indirizzo stato sensori
+      method: "get",
+    });
 
-      let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
+    let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
 
-      return statoLuce;
+    return statoLuce;
   } catch (err) {
     console.error(`Errore nella richiesta dello stato dell'attuatore: ${err}`);
     return undefined;

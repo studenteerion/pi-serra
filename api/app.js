@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { createServer } = require("node:http");
+const cors = require('cors');
 
 const bodyParser = require("body-parser");
 require('dotenv').config();
@@ -8,6 +9,8 @@ require('dotenv').config();
 const db = require('./functions/db');
 const sensors = require('./functions/sensors');
 const socket = require('./functions/socket')
+
+app.use(cors());
 
 app.use(bodyParser.json());  //needed to handle http request
 app.use(
@@ -21,6 +24,7 @@ socket.createSocket(server)
 app.use(express.static("public"));
 
 socket.listenForMainConnection()
+socket.listenForPanel()
 
 //ultima lettura nel db
 app.get("/api/lastdata", async (req, res) => {

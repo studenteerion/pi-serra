@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const dataSchema = new mongoose.Schema({
     Temperature: {
-       type : Number,
-       required : true 
+        type: Number,
+        required: true
     },
 
     Humidity: {
-        type : Number,
-        required : true 
+        type: Number,
+        required: true
     },
 
     Time: {
@@ -16,7 +16,7 @@ const dataSchema = new mongoose.Schema({
         default: Date.now
     }
 },
-{versionKey: false}
+    { versionKey: false }
 );
 
 module.exports = mongoose.model('Sensor', dataSchema);

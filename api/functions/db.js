@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Sensor = require("./dbscheme");
 const Database = process.env.Database;
 
-async function connect () {
+async function connect() {
     await mongoose //connessione al database
     .connect(Database)
     .then(() => {
