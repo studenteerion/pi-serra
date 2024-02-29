@@ -34,7 +34,10 @@ async function getSensorData() {
 }
 
 function getDatiSensori() {
-  return datiSensori.Sensors[0];
+  if (!datiSensori) {
+    return {Temperature: undefined, Humidity: undefined};
+  } else
+    return datiSensori.Sensors[0];
 }
 
 module.exports = { getSensorData, getDatiSensori, eventEmitter }

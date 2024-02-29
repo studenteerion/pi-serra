@@ -13,8 +13,16 @@ function Home() {
     useEffect(() => {
         const socket = io('http://localhost:8080/main-ws', { transports: ['websocket'] });
         socket.on('updateData', (data) => {
-            setHumidity(data.Humidity + '%');
-            setTemperature(data.Temperature + '°');
+            console.log(data);
+            if (data.Humidity === undefined)
+                setHumidity("Errore");
+            else
+                setHumidity(data.Humidity + '%');
+            
+            if (data.Temperature === undefined)
+                setTemperature("Errore");
+            else
+                setTemperature(data.Temperature + '°');
         });
     }, []);
 
