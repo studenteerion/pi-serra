@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Chart from "chart.js/auto";
+import Chart from "chart.js/auto"; //import is necessary for the chart to work
 import { Line } from "react-chartjs-2";
 import Header from '../components/header';
 
