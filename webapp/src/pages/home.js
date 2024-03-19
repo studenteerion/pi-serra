@@ -14,15 +14,15 @@ function Home() {
         const socket = io('http://localhost:8080/main-ws', { transports: ['websocket'] });
         socket.on('updateData', (data) => {
             console.log(data);
-            if (data.Humidity === undefined)
+            if (data[1].Value === undefined)
                 setHumidity("Errore");
             else
-                setHumidity(data.Humidity + '%');
+                setHumidity(data[1].Value + '%');
             
-            if (data.Temperature === undefined)
+            if (data[0].Value === undefined)
                 setTemperature("Errore");
             else
-                setTemperature(data.Temperature + '°');
+                setTemperature(data[0].Value + '°');
         });
     }, []);
 

@@ -1,11 +1,9 @@
-const axios = require("axios").create();
+/* const axios = require("axios").create();
 const display = require('./display');
 
 const Air_status = `${process.env.Air}json`;
 const Air_on = `${process.env.Air}tools?cmd=gpio%2C0%2C0`
 const Air_off = `${process.env.Air}tools?cmd=gpio%2C0%2C1`
-
-
 
 async function statoAria() { // ottenere stato aria
   try {
@@ -61,4 +59,4 @@ async function spegniAria() {
   }
 }
 
-module.exports = { accendiAria, spegniAria, statoAria }
+module.exports = { accendiAria, spegniAria, statoAria } */

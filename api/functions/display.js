@@ -1,10 +1,10 @@
-const axios = require("axios").create();
+/* const axios = require("axios").create();
 const display = process.env.Display;
 const dependencies = require('./circulardependencyfixer');
 /* const Sensors = require('./sensors');
 const light = require('./lights');
 const air = require('./air');
-const pump = require('./pump'); */
+const pump = require('./pump'); 
 
 
 let Temperature_line = 1
@@ -150,4 +150,4 @@ setTimeout(AggiornaLuce, 3000);
 setTimeout(AggiornaPompa, 5000);
 setTimeout(AggiornaAria, 7000);
 
-module.exports = { scrivi, AggiornaLuce, AggiornaPompa, AggiornaAria }
+module.exports = { scrivi, AggiornaLuce, AggiornaPompa, AggiornaAria } */

@@ -1,10 +1,9 @@
-const axios = require("axios").create();
+/* const axios = require("axios").create();
 //const Sensors = require('./sensors');
 const light = require('./lights');
 const air = require('./air');
 const pump = require('./pump');
 const config = require(process.env.filePath);
-
 const Air_status = `${process.env.Air}json`;
 const Pump_status = `${process.env.Pump}json`;
 const Light_status = `${process.env.Actuator}json`;
@@ -97,4 +96,4 @@ async function statoLuce() { // ottenere stato attuatore
   setTimeout(statoPompa, 1000);
   setTimeout(statoAria, 1000);
 
-  module.exports = {getSensorData, statoLuce, statoPompa, statoAria}
+  module.exports = {getSensorData, statoLuce, statoPompa, statoAria} */

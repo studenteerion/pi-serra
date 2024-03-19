@@ -1,4 +1,4 @@
-const axios = require("axios").create();
+/* const axios = require("axios").create();
 const display = require('./display');
 
 const Pump_status = `${process.env.Pump}json`;
@@ -61,4 +61,4 @@ async function spegniPompa() {
   }
 }
 
-module.exports = { accendiPompa, spegniPompa, statoPompa }
+module.exports = { accendiPompa, spegniPompa, statoPompa } */

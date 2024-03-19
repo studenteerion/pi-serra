@@ -1,8 +1,6 @@
 const axios = require("axios").create();
 const config = require(process.env.filePath);
 const light = require('./lights');
-const air = require('./air');
-const pump = require('./pump');
 const db = require('./db')
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
@@ -18,23 +16,16 @@ async function getSensorData() {
       method: "get",
     });
 
-    //console.log(response.data.Sensors[0].TaskValues);
-
-    if (!datiSensori || JSON.stringify(datiSensori.Sensors[0].TaskValues) !== JSON.stringify(response.data.Sensors[0].TaskValues) || isConfigUpdated) {
-      datiSensori = response.data
+    if (!datiSensori || JSON.stringify(datiSensori) !== JSON.stringify(response.data.Sensors[0].TaskValues) || isConfigUpdated) {
+      datiSensori = response.data.Sensors[0].TaskValues
       eventEmitter.emit('sensorDataChanged');
-      let dbData = {"Temperature": datiSensori.Sensors[0].TaskValues[0].Value, "Humidity": datiSensori.Sensors[0].TaskValues[1].Value}
+      let dbData = {Temperature: datiSensori[0].Value, Humidity: datiSensori[1].Value}
+      db.saveData(dbData)
 
-      if (dbData.Temperature <= config.onTemperature) {
+      if (datiSensori[0].Value <= config.onTemperature)
         light.accendiLuce();
-        air.accendiAria();
-        pump.spegniPompa();
-      }
-      else {
+      else
         light.spegniLuce();
-        air.spegniAria();
-        pump.spegniPompa();
-      }
     }
   } catch (err) {
     console.error(`Error in getSensorData: ${err}`);
@@ -45,9 +36,9 @@ async function getSensorData() {
 
 function getDatiSensori() {
   if (!datiSensori) {
-    return { Temperature: undefined, Humidity: undefined };
+    return {Temperature: undefined, Humidity: undefined};
   } else
-    return datiSensori.Sensors[0];
+    return datiSensori;
 }
 
 module.exports = { getSensorData, getDatiSensori, eventEmitter }
