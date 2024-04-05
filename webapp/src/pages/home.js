@@ -7,22 +7,22 @@ import io from 'socket.io-client';
 //import axios from 'axios';
 
 function Home() {
-    const [humidity, setHumidity] = useState('50%');
-    const [temperature, setTemperature] = useState('35°');
+    const [humidity, setHumidity] = useState('');
+    const [temperature, setTemperature] = useState('');
 
     useEffect(() => {
         const socket = io('http://localhost:8080/main-ws', { transports: ['websocket'] });
         socket.on('updateData', (data) => {
             console.log(data);
-            if (data[1].Value === undefined)
+            if (data.Humidity === undefined)
                 setHumidity("Errore");
             else
-                setHumidity(data[1].Value + '%');
-            
-            if (data[0].Value === undefined)
+                setHumidity(data.Humidity + '%');
+
+            if (data.Temperature === undefined)
                 setTemperature("Errore");
             else
-                setTemperature(data[0].Value + '°');
+                setTemperature(data.Temperature + '°');
         });
     }, []);
 

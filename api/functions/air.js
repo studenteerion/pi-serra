@@ -1,4 +1,4 @@
-/* const axios = require("axios").create();
+const axios = require("axios").create();
 const display = require('./display');
 
 const Air_status = `${process.env.Air}json`;
@@ -59,4 +59,4 @@ async function spegniAria() {
   }
 }
 
-module.exports = { accendiAria, spegniAria, statoAria } */
+module.exports = { accendiAria, spegniAria, statoAria }

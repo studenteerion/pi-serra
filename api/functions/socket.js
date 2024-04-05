@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const sensors = require('./sensors')
+const display = require('./display')
 let config = require(process.env.filePath);
 const configFile = require('./updateConfig')
 
@@ -16,14 +17,40 @@ function createSocket(server) {
 }
 
 function listenForMainConnection() {
-    io.of('/main-ws').on("connection", socket => {
-        console.log("a user connected");
-        socket.emit("updateData", sensors.getDatiSensori())
+    const data = sensors.getDatiSensori();
+
+    const dataPromise = Promise.resolve(data);
+
+    dataPromise.then((data) => {
+        const temperatura = data.Temperature;
+        const umidita = data.Humidity;
+
+        io.of('/main-ws').on("connection", socket => {
+            console.log("a user connected");
+            socket.emit("updateData", { Temperature: temperatura, Humidity: umidita })
+        });
+
+        display.scrivi({ Temperature: temperatura, Humidity: umidita });
+
     });
 }
 
 function sendSensorData() {
-    io.of('./main-ws').emit("updateData", sensors.getDatiSensori())
+    const data = sensors.getDatiSensori();
+
+    const dataPromise = Promise.resolve(data);
+
+    dataPromise.then((data) => {
+        const temperatura = data.Temperature;
+        const umidita = data.Humidity;
+
+        console.log(temperatura);
+        console.log(umidita);
+
+        display.scrivi({ Temperature: temperatura, Humidity: umidita });
+
+        io.of('/main-ws').emit('updateData', { Temperature: temperatura, Humidity: umidita });
+    });
 }
 
 function listenForPanel() {
@@ -47,4 +74,4 @@ function updatePanelData() {
 
 sensors.eventEmitter.on('sensorDataChanged', sendSensorData);
 
-module.exports = { createSocket, listenForMainConnection, sendSensorData, listenForPanel }
+module.exports = { createSocket, listenForMainConnection, sendSensorData, listenForPanel };

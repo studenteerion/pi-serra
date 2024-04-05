@@ -1,10 +1,14 @@
 const axios = require("axios").create();
 const display = require('./display');
 
-const Light_status = `${process.env.Actuator}json`;
-const Light_on = `${process.env.Actuator}tools?cmd=gpio%2C0%2C0`
-const Light_off = `${process.env.Actuator}tools?cmd=gpio%2C0%2C1`
 
+//Actuator = http://192.168.112.53/
+
+const Light_status = `${process.env.Light}json`;
+const Light_on = `${process.env.Light}tools?cmd=gpio%2C0%2C0`
+const Light_off = `${process.env.Light}tools?cmd=gpio%2C0%2C1`
+
+let status
 
 async function statoLuce() { // ottenere stato attuatore
   try {
@@ -13,9 +17,12 @@ async function statoLuce() { // ottenere stato attuatore
       method: "get",
     });
 
-    let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
+    status = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
 
-    return statoLuce;
+    //display.AggiornaLuce(status);
+
+    return status;
+
   } catch (err) {
     console.error(`Errore nella richiesta dello stato dell'attuatore: ${err}`);
     return undefined;
@@ -26,7 +33,7 @@ async function accendiLuce() {
   try {
     if (await statoLuce() == 1) {
       try {
-        await axios({ // fa spegnere la luce
+        await axios({ // fa accendere la luce
           url: Light_on,
           method: "get",
         });
@@ -34,7 +41,9 @@ async function accendiLuce() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaLuce();
+
+      display.AggiornaLuce(status);
+    
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
@@ -53,7 +62,10 @@ async function spegniLuce() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaLuce();
+
+      display.AggiornaLuce(status);
+
+      
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
