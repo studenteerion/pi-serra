@@ -2,11 +2,13 @@ const axios = require("axios").create();
 const config = require(process.env.filePath);
 const light = require('./lights');
 //const pump = require('./pump');
-const air = require('./air');
+//const air = require('./air');
 const db = require('./db')
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
 const { isConfigUpdated } = require('./updateConfig')
+
+const getjson = require('./getjson');
 
 const Sensors = process.env.Sensors
 let datiSensori;
@@ -15,18 +17,13 @@ async function getSensorData() {
   console.log("ping 0");
   try {
 
-    console.log("ping 0");
+    response = getjson.sensorJSON(Sensors)
 
-    const response = await axios({
-      url: Sensors,
-      method: "get",
-    });
-
-    if (!datiSensori || JSON.stringify(datiSensori) !== JSON.stringify(response.data.Sensors[0].TaskValues) || isConfigUpdated) {
+    if (!datiSensori || JSON.stringify(datiSensori) !== JSON.stringify(response[0].TaskValues) || isConfigUpdated) {
 
       console.log("ping 1");
 
-        console.log(response.data.Sensors[0].TaskValues);
+      //console.log(response.data.Sensors[0].TaskValues);
 
       datiSensori = response.data.Sensors[0].TaskValues
       eventEmitter.emit('sensorDataChanged');
