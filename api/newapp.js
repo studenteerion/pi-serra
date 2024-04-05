@@ -8,7 +8,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const db = require('./functions/db');
-const swagger = require('./swagger').default
+const swagger = require('./swagger')
 
 app.use(cors());
 
@@ -23,15 +23,7 @@ const server = createServer(app); // avvio server express
 app.use(express.static("public"));
 swagger(app)
 
-//ultima lettura nel db
-app.get("/api/lastdata", async (_, res) => {
-  res.json(await db.getData(true));
-});
-
-//tutte le letture del db
-app.get("/api/alldata", async (_, res) => {
-  res.json(await db.getData(false));
-});
+app.use('/api', require('./routes/api'));
 
 (async () => {
   // await db.connect();
