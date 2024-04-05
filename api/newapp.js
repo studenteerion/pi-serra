@@ -1,14 +1,14 @@
-const express = require("express");
+const express = require("express")
+const bodyParser = require("body-parser")
+  
 const app = express();
 const { createServer } = require("node:http");
 const cors = require('cors');
 
-const bodyParser = require("body-parser");
 require('dotenv').config();
 
 const db = require('./functions/db');
-const sensors = require('./functions/sensors');
-const socket = require('./functions/socket')
+const swagger = require('./swagger').default
 
 app.use(cors());
 
@@ -20,11 +20,8 @@ app.use(
 );
 
 const server = createServer(app); // avvio server express
-socket.createSocket(server)
 app.use(express.static("public"));
-
-socket.listenForMainConnection()
-socket.listenForPanel()
+swagger(app)
 
 //ultima lettura nel db
 app.get("/api/lastdata", async (_, res) => {
@@ -37,7 +34,7 @@ app.get("/api/alldata", async (_, res) => {
 });
 
 (async () => {
-  await db.connect();
+  // await db.connect();
 })().then(() => {
   //avvio server e ascolto di richieste HTTP
   server.listen(8080, () => {
@@ -46,6 +43,3 @@ app.get("/api/alldata", async (_, res) => {
 
 });
 
-//richiesta dati ai sensori
-//invocazione della funzione la prima volta in modo che i dati non siano vuoti appena di accede all'applicazione
-sensors.getSensorData();
