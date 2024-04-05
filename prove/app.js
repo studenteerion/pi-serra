@@ -26,6 +26,12 @@ app.use(express.static("public"));
 getjson.sensorJSON(`${process.env.Sensors}json`);
 
 
+// array
+arraySensori = [`${process.env.Sensors}json`, `${process.env.Light}json`]
+
+getjson.allSensorsJSON(arraySensori);
+
+
 //socket.listenForMainConnection()
 //socket.listenForPanel()
 
@@ -40,12 +46,12 @@ app.get("/api/alldata", async (req, res) => {
 }); */
 
 //(async () => {
- // await db.connect();
+// await db.connect();
 //})().then(() => {
-  //avvio server e ascolto di richieste HTTP
-  server.listen(8080, () => {
+//avvio server e ascolto di richieste HTTP
+server.listen(8080, () => {
     console.log("Server started at port 8080");
-  });
+});
 
 //});
 
