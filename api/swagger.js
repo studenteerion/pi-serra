@@ -1,5 +1,5 @@
-import swaggerJsdoc from 'swagger-jsdoc';
-import { serve, setup } from 'swagger-ui-express';
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
 const options = {
   definition: {
@@ -12,7 +12,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "http://localhost:3000/api",
       },
     ],
   },
@@ -21,6 +21,6 @@ const options = {
 
 const specs = swaggerJsdoc(options)
 
-export default (app) => {
-  app.use('/api-docs', serve, setup(specs))
+module.exports = (app) => {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 }
