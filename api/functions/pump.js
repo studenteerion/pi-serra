@@ -1,4 +1,4 @@
-/* const axios = require("axios").create();
+const axios = require("axios").create();
 const display = require('./display');
 
 const Pump_status = `${process.env.Pump}json`;
@@ -14,9 +14,11 @@ async function statoPompa() { // ottenere stato pompa
       method: "get",
     });
 
-    let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato della pompa 1 = spento; 0 = acceso
+    let statoPompa = response.data.Sensors[0].TaskValues[0].Value; // stato della pompa 0 = spento; 1 = acceso
 
-    return statoLuce;
+    display.AggiornaPompa(statoPompa);
+
+    return statoPompa;
   } catch (err) {
     console.error(`Errore nella richiesta dello stato della pompa: ${err}`);
     return undefined;
@@ -25,9 +27,9 @@ async function statoPompa() { // ottenere stato pompa
 
 async function accendiPompa() {
   try {
-    if (await statoPompa() == 1) {
+    if (await statoPompa() == 0) {
       try {
-        await axios({ // fa spegnere la pompa
+        await axios({ // fa accendere la pompa
           url: Pump_on,
           method: "get",
         });
@@ -35,7 +37,7 @@ async function accendiPompa() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaPompa();
+      display.AggiornaPompa(1);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
@@ -44,7 +46,7 @@ async function accendiPompa() {
 
 async function spegniPompa() {
   try {
-    if (await statoPompa() == 0) {
+    if (await statoPompa() == 1) {
       try {
         await axios({ // fa spegnere la pompa
           url: Pump_off,
@@ -54,11 +56,12 @@ async function spegniPompa() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaPompa();
+      
+      display.AggiornaPompa(0);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
   }
 }
 
-module.exports = { accendiPompa, spegniPompa, statoPompa } */
+module.exports = { accendiPompa, spegniPompa, statoPompa }

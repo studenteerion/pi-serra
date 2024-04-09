@@ -19,4 +19,13 @@ function saveConfig(updatedConfigData) {
   });
 }
 
-module.exports = { saveConfig, getConfig, isConfigUpdated };
+
+function updated() {
+  return isConfigUpdated;
+}
+
+function update(status) {
+  isConfigUpdated = status;
+}
+
+module.exports = { saveConfig, getConfig, updated, update };

@@ -1,4 +1,91 @@
-const axios = require("axios").create();
+//const axios = require("axios").create();
+const config = require(process.env.filePath);
+const light = require('./lights');
+const pump = require('./pump');
+const air = require('./air');
+const db = require('./db')
+const events = require('events');
+const eventEmitter = new events.EventEmitter();
+const updated = require('./updateConfig')
+
+
+const getjson = require('./getjson');
+
+const Sensors = process.env.Sensors
+let datiSensori;
+
+async function getSensorData() {
+    //console.log("ping 0");
+    try {
+        response = await getjson.sensorJSON(Sensors);
+        //console.log(response[0].TaskValues);
+
+        if (!datiSensori || JSON.stringify(datiSensori) !== JSON.stringify(response[0].TaskValues) || updated.updated()) {
+
+            //console.log("ping 1");
+
+            //console.log(response.data.Sensors[0].TaskValues);
+
+            datiSensori = response[0].TaskValues
+
+            //console.log(datiSensori);
+
+            //console.log(`before = ${updated.updated()}`);
+
+            updated.update(false);
+
+            //console.log(`after = ${updated.updated()}`);
+
+            eventEmitter.emit('sensorDataChanged');
+            
+            let dbData = { Temperature: datiSensori[0].Value, Humidity: datiSensori[1].Value }
+            
+            db.saveData(dbData)
+
+            console.log(dbData);
+
+            if (dbData.Temperature <= config.onTemperature) {
+                console.log("Temperature is below config.onTemperature");
+                light.accendiLuce();
+                air.accendiAria();
+                pump.spegniPompa();
+            }
+            else {
+                console.log("Temperature is above config.onTemperature");
+                light.spegniLuce();
+                air.spegniAria();
+                pump.accendiPompa();
+            }
+
+        }
+    } catch (err) {
+        console.error(`Error in getSensorData: ${err}`);
+    }
+
+    setTimeout(getSensorData, 1 * 1000);
+}
+
+async function getDatiSensori() {
+
+    //console.log(datiSensori);
+    //console.log({ Temperature: datiSensori[0].Value, Humidity: datiSensori[1].Value });
+
+    if (!datiSensori) {
+        return { Temperature: undefined, Humidity: undefined };
+    } else {
+        return { Temperature: datiSensori[0].Value, Humidity: datiSensori[1].Value };
+    }
+
+}
+
+module.exports = { getSensorData, getDatiSensori, eventEmitter }
+
+
+
+
+
+
+/* const axios = require("axios").create();
 const config = require(process.env.filePath);
 const light = require('./lights');
 //const pump = require('./pump');
@@ -63,3 +150,4 @@ async function getDatiSensori() {
 }
 
 module.exports = { getSensorData, getDatiSensori, eventEmitter }
+ */

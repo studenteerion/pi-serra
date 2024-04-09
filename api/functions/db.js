@@ -33,7 +33,7 @@ async function saveData(sensorData) {
     try {
         const newSensorData = new Sensor(sensorData);
         await newSensorData.save();
-
+        console.log("Data saved to database");
       } catch (err) {
         console.error(`Error trying to save to database: ${err}`);
       }

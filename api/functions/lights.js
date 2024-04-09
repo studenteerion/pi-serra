@@ -19,7 +19,8 @@ async function statoLuce() { // ottenere stato attuatore
 
     status = response.data.Sensors[0].TaskValues[0].Value; // stato della luce 1 = spento; 0 = acceso
 
-    //display.AggiornaLuce(status);
+
+    display.AggiornaLuce(status);
 
     return status;
 
@@ -42,7 +43,7 @@ async function accendiLuce() {
         console.error(`Error: ${err.message}`);
       }
 
-      display.AggiornaLuce(status);
+      display.AggiornaLuce(0);
     
     }
   } catch (err) {
@@ -63,7 +64,7 @@ async function spegniLuce() {
         console.error(`Error: ${err.message}`);
       }
 
-      display.AggiornaLuce(status);
+      display.AggiornaLuce(1);
 
       
     }

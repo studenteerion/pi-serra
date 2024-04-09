@@ -37,17 +37,18 @@ async function getSensorData() {
 
             console.log(dbData);
 
-            /* if (dbData.Temperature <= config.onTemperature) {
-              light.accendiLuce();
-              air.accendiAria();
-              //pump.spegniPompa();
+            if (dbData.Temperature <= config.onTemperature) {
+                console.log("Temperature is below config.onTemperature");
+                light.accendiLuce();
+                air.accendiAria();
+                //pump.spegniPompa();
             }
             else {
-              light.spegniLuce();
-              air.spegniAria();
-              //pump.spegniPompa();
+                console.log("Temperature is above config.onTemperature");
+                light.spegniLuce();
+                air.spegniAria();
+                //pump.spegniPompa();
             }
-            */
 
         }
     } catch (err) {

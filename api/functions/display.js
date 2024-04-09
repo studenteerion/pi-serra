@@ -1,5 +1,6 @@
 const axios = require("axios").create();
 const display = process.env.Display;
+const { stat } = require("fs");
 //const sensors = require('./sensors');
 
 const sensors = require('./sensors');
@@ -69,13 +70,13 @@ async function scrivi(data) {
 
 async function AggiornaLuce(status) {
     //pulisciCampo(Light_line);
-    let statoLuce = status
-    console.log(statoLuce);
+    let statoLuce = status;
+    //console.log(statoLuce);
     let stato = "error";
     try {
-        if (statoLuce == 0) {
+        if (statoLuce == 1) {
             stato = "spenta";
-        } if (statoLuce == 1) {
+        } if (statoLuce == 0) {
             stato = "accesa";
         }
     } catch (err) {
@@ -125,10 +126,10 @@ async function AggiornaAria(status) {
     let stato = "error";
     try {
         if (statoAria == 0) {
-            stato = "spenta";
+            stato = "accesa";
         }
         if (statoAria == 1) {
-            stato = "accesa";
+            stato = "spenta";
         }
     } catch (err) {
         console.error(`Error: ${err.message}`);

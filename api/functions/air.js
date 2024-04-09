@@ -14,6 +14,8 @@ async function statoAria() { // ottenere stato aria
 
     let statoLuce = response.data.Sensors[0].TaskValues[0].Value; // stato dell'aria 1 = spento; 0 = acceso
 
+    display.AggiornaAria(statoLuce);
+
     return statoLuce;
   } catch (err) {
     console.error(`Errore nella richiesta dello stato dell'Aria: ${err}`);
@@ -33,7 +35,7 @@ async function accendiAria() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaAria();
+      display.AggiornaAria(0);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
@@ -52,7 +54,7 @@ async function spegniAria() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaAria();
+      display.AggiornaAria(1);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
