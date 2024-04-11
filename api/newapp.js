@@ -23,7 +23,7 @@ const server = createServer(app); // avvio server express
 app.use(express.static("public"));
 swagger(app)
 
-app.use('/api', require('./routes/api'));
+app.use('/sensors', require('./routes/sensors'));
 
 (async () => {
   // await db.connect();

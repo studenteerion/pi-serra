@@ -6,29 +6,19 @@ async function sensorJSON(url) {
         method: "get",
     });
 
-    responseSoloSensors = response.data.Sensors; //estraggo solo i dati dei sensori dal json (nella risposta c'è la proprietà "data" che contiene il json effettivo che ha risposto l'ESP)
-    //console.log(responseSoloSensors)
-    return responseSoloSensors
+    return response.data.Sensors;
 }
 
 
 async function allSensorsJSON(urls) {
-
-    let JsonTutto = []; // json dove sommo tutte le risposte dei sensori
-
-
-    for (let i = 0; i < urls.length; i++) {
-        console.log("Obtaining " + urls[i]);
-        const response = await axios({
-            url: urls[i],
-            method: "get",
-        });
-
-        JsonTutto[i] = response.data.Sensors; // sommo il json ricevuto nel json unificato
+    try {
+        const responses = await Promise.all(urls.map(url => axios.get(url)));
+        const jsonTutto = responses.map(response => response.data.Sensors);
+        return jsonTutto;
+    } catch (error) {
+        console.error(`Errore in uno dei sensori: ${error}`)
+        throw error;
     }
-
-    //console.log(JsonTutto);
-    return JsonTutto;
 }
 
 
