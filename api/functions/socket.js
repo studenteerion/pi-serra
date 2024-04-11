@@ -49,6 +49,8 @@ function sendSensorData() {
 
         display.scrivi({ Temperature: temperatura, Humidity: umidita });
 
+        sensors.getSensorData();
+
         io.of('/main-ws').emit('updateData', { Temperature: temperatura, Humidity: umidita });
     });
 }

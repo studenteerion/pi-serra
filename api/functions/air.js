@@ -24,6 +24,7 @@ async function statoAria() { // ottenere stato aria
 }
 
 async function accendiAria() {
+  console.log("accendi aria");
   try {
     if (await statoAria() == 1) {
       try {
@@ -43,8 +44,10 @@ async function accendiAria() {
 }
 
 async function spegniAria() {
+  console.log("spegni aria");
   try {
     if (await statoAria() == 0) {
+      console.log("dopo stato aria");
       try {
         await axios({ // fa spegnere l'aria
           url: Air_off,

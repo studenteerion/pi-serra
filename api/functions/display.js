@@ -99,10 +99,10 @@ async function AggiornaPompa(status) {
     let statoPompa = status;
     let stato = "error";
     try {
-        if (statoPompa == 0) {
+        if (statoPompa == 1) {
             stato = "spenta";
         }
-        if (statoPompa == 1) {
+        if (statoPompa == 0) {
             stato = "accesa";
         }
     } catch (err) {
