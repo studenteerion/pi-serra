@@ -27,7 +27,7 @@ async function statoPompa() { // ottenere stato pompa
 
 async function accendiPompa() {
   try {
-    if (await statoPompa() == 0) {
+    if (await statoPompa() == 1) {
       try {
         await axios({ // fa accendere la pompa
           url: Pump_on,
@@ -37,7 +37,7 @@ async function accendiPompa() {
       } catch (err) {
         console.error(`Error: ${err.message}`);
       }
-      display.AggiornaPompa(1);
+      display.AggiornaPompa(0);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
@@ -46,7 +46,7 @@ async function accendiPompa() {
 
 async function spegniPompa() {
   try {
-    if (await statoPompa() == 1) {
+    if (await statoPompa() == 0) {
       try {
         await axios({ // fa spegnere la pompa
           url: Pump_off,
@@ -57,7 +57,7 @@ async function spegniPompa() {
         console.error(`Error: ${err.message}`);
       }
       
-      display.AggiornaPompa(0);
+      display.AggiornaPompa(1);
     }
   } catch (err) {
     console.error(`Error: ${err.message}`);
