@@ -14,11 +14,7 @@ const options = {
       {
         url: 'http://localhost:8080',
         description: 'API server',
-      },
-      {
-        url: 'http://localhost:3000',
-        description: 'Visual webapp server',
-      },
+      }
     ],
   },
   apis: ["./routes/*.js"]

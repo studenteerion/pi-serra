@@ -25,6 +25,8 @@ swagger(app)
 
 app.use('/sensors', require('./routes/sensors'));
 
+app.use('controls', require('./routes/controls'))
+
 (async () => {
   // await db.connect();
 })().then(() => {

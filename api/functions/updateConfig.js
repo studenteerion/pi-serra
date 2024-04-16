@@ -1,4 +1,3 @@
-const { config } = require("dotenv");
 const fs = require("fs");
 
 let isConfigUpdated = false;

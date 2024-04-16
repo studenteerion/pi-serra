@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const actuatorData = require('../functions/getjson')
 const db = require('../functions/db');
+
+const urls = require('../config_files/sensor_list.json')
 
 /**
  * @swagger
@@ -40,7 +42,7 @@ const db = require('../functions/db');
  *                    description: The time when the data was recorded.
  *                    example: "2024-04-11T01:14:00Z"
  */
-router.get("/lastdata", async (_, res) => {
+router.get("/db-data/last", async (_, res) => {
   res.json(await db.getData(true));
 });
 
@@ -83,8 +85,12 @@ router.get("/lastdata", async (_, res) => {
  *                     example: "2024-04-11T01:14:00Z"
  */
 
-router.get("/alldata", async (_, res) => {
+router.get("/db-data", async (_, res) => {
   res.json(await db.getData(false));
 });
+
+router.get('./', async (_, res) => {
+  res.send(await sensorData.allSensorsJSON(urls.map(item => item.url)))
+})
 
 module.exports = router;
