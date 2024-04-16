@@ -10,6 +10,11 @@ router.get('/', async (_, res) => {
     res.send(await actuatorData.allSensorsJSON(urls.map(item => item.url)))
 })
 
+/*
 router.put('/:id', async (req, res) => {
-    controls(req.params.id, )
+    //TODO: ottenere url a partire dall'id
+    //controls(req.params.id, )
 })
+*/
+
+module.exports = router
