@@ -12,9 +12,9 @@ async function sensorJSON(url) {
 
 async function allSensorsJSON(urls) {
     try {
-        const responses = await Promise.all(urls.map(url => axios.get(url)));
+        const responses = await Promise.all(urls.map(url => axios.get(`${url}/json`)));
         const jsonTutto = responses.map(response => response.data.Sensors);
-        return jsonTutto;
+        return jsonTutto
     } catch (error) {
         console.error(`Errore in uno dei sensori: ${error}`)
         throw error;

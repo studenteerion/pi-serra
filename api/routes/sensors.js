@@ -3,7 +3,7 @@ const router = express.Router();
 const actuatorData = require('../functions/getjson')
 const db = require('../functions/db');
 
-const urls = require('../config_files/sensor_list.json')
+const urls = require('../config_files/sensors_list.json')
 
 /**
  * @swagger
