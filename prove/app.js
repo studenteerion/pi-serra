@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const { createServer } = require("node:http");
-const changeStatus = require("../api/functions/changestatus");
+const manager = require("../api/functions/config_filesManager");
+//const changeStatus = require("../api/functions/changestatus");
 //const cors = require('cors');
 
 //const bodyParser = require("body-parser");
@@ -9,6 +10,10 @@ const changeStatus = require("../api/functions/changestatus");
 
 
 require('dotenv').config();
+
+manager.getUrlById(1);
+
+manager.removeUrl(2);
 
 
 
@@ -26,12 +31,12 @@ app.use(
 );
  */
 
-const url = process.env.Light;
+//const url = process.env.Light;
 //const url = `${process.env.Air}json`;
-changeStatus(url,0);
+//changeStatus(url,0);
 
 
-changeStatus()
+//changeStatus()
 
 const server = createServer(app); // avvio server express
 
