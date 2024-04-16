@@ -1,4 +1,4 @@
 {
-  "onTemperature": "90",
-  "sensorUpdateFrequency": "10"
+  "onTemperature": "20",
+  "sensorUpdateFrequency": "5"
 }

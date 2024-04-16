@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { createServer } = require("node:http");
+const changeStatus = require("../api/functions/changestatus");
 //const cors = require('cors');
 
 //const bodyParser = require("body-parser");
@@ -12,7 +13,7 @@ require('dotenv').config();
 
 
 //const db = require('./functions/db');
-const sensors = require('./sensors');
+//const sensors = require('./sensors');
 /*const socket = require('./functions/socket')
 
 app.use(cors());
@@ -25,8 +26,12 @@ app.use(
 );
  */
 
+const url = process.env.Light;
+//const url = `${process.env.Air}json`;
+changeStatus(url,0);
 
 
+changeStatus()
 
 const server = createServer(app); // avvio server express
 
@@ -66,4 +71,4 @@ server.listen(8080, () => {
 
 //richiesta dati ai sensori
 //invocazione della funzione la prima volta in modo che i dati non siano vuoti appena di accede all'applicazione
-sensors.getSensorData();
+//sensors.getSensorData();
