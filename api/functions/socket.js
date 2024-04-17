@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 const sensors = require('./sensors')
 const display = require('./display')
 let config = require(process.env.filePath);
-const configFile = require('./updateConfig')
+const configFile = require('./update_config')
 
 let isConfigUpdated = false
 let io;

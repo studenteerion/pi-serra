@@ -6,7 +6,7 @@ const air = require('./air');
 const db = require('./db')
 const events = require('events');
 const eventEmitter = new events.EventEmitter();
-const updated = require('./updateConfig')
+const updated = require('./update_config')
 
 
 const getjson = require('./getjson');

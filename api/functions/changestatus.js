@@ -1,6 +1,5 @@
 const axios = require("axios").create();
 
-
 module.exports = async function changeStatus(url, status) {
     try {
         await axios({
