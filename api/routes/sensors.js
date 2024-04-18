@@ -1,16 +1,80 @@
 const express = require('express');
 const router = express.Router();
-const actuatorData = require('../functions/getjson')
+const sensorData = require('../functions/getjson')
 const db = require('../functions/db');
 
 const urls = require('../config_files/sensors_list.json')
 
 /**
  * @swagger
- * /sensors/lastdata:
+ * /sensors:
+ *   get:
+ *     summary: Retrieve data from all connected sensors.
+ *     tags: [Sensors]
+ *     responses:
+ *       '200':
+ *         description: Success. Returns data from all connected sensors.
+ *       '500':
+ *         description: Internal Server Error.
+ */
+router.get('./', async (_, res) => {
+  res.send(await sensorData.allSensorsJSON(urls.map(item => item.url)))
+})
+
+/**
+ * @swagger
+ * /sensors/{id}:
+ *   get:
+ *     summary: Retrieve sensor data for a specific ID.
+ *     tags: [Sensors]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the sensor.
+ *     responses:
+ *       '200':
+ *         description: Success. Returns sensor data for the specified ID.
+ *       '500':
+ *         description: Internal Server Error.
+ */
+router.get('/:id', async (_, res) => {
+  res.send(await sensorData.sensorJSON(configManager.getUrlFromId(id)))
+})
+
+/**
+ * @swagger
+ * /sensors/{id}:
+ *   delete:
+ *     summary: Delete a sensor.
+ *     tags: [Sensors]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the sensor to delete.
+ *     responses:
+ *       '200':
+ *         description: sensor deleted successfully.
+ *       '500':
+ *         description: Internal Server Error.
+ */
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  await configManager.removeUrl(configManager.getUrlFromId(id));
+  res.send('Sensor deleted successfully');
+});
+
+/**
+ * @swagger
+ * /sensors/db-data/last:
  *   get:
  *     tags:
- *       - sensors
+ *       - Sensors
  *     summary: Get the last sensor data saved in the database
  *     responses:
  *       200:
@@ -48,11 +112,11 @@ router.get("/db-data/last", async (_, res) => {
 
 /**
  * @swagger
- * /sensors/alldata:
+ * /sensors/db-data:
  *   get:
  *     tags:
- *       - sensors
- *     summary: Get the last sensor data saved in the database
+ *       - Sensors
+ *     summary: Get all sensor data saved in the database
  *     responses:
  *       200:
  *         description: Returns the last instance of data
@@ -88,9 +152,5 @@ router.get("/db-data/last", async (_, res) => {
 router.get("/db-data", async (_, res) => {
   res.json(await db.getData(false));
 });
-
-router.get('./', async (_, res) => {
-  res.send(await sensorData.allSensorsJSON(urls.map(item => item.url)))
-})
 
 module.exports = router;

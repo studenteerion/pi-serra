@@ -9,7 +9,6 @@ require('dotenv').config();
 
 const db = require('./functions/db');
 const swagger = require('./swagger')
-const socket = require('./functions/socket')
 
 app.use(cors());
 
@@ -22,7 +21,6 @@ app.use(
 
 const server = createServer(app); // avvio server express
 app.use(express.static("public"));
-socket.createSocket(server)
 swagger(app)
 
 //impostazione delle routes

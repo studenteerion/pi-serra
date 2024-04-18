@@ -7,20 +7,44 @@ const configManager = require('../functions/config_files_manager.js')
 
 const urls = require('../config_files/actuator_list.json')
 
-/** 
+/**
  * @swagger
- * /:
+ * /controls:
  *   get:
- *     summary: Retrieve data from all sensors.
- *     tags: [Sensors]
+ *     summary: Retrieve data from all connected actuators.
+ *     tags: [Controls]
  *     responses:
  *       '200':
- *         description: Success. Returns data from all sensors.
+ *         description: Success. Returns data from all connected actuators.
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('/', async (_, res) => {
+router.get('./', async (_, res) => {
     res.send(await actuatorData.allSensorsJSON(urls.map(item => item.url)))
+  })
+
+/**
+ * @swagger
+ * /controls/{id}:
+ *   get:
+ *     summary: Retrieve actuator data for a specific ID.
+ *     tags: [Controls]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the actuator.
+ *     responses:
+ *       '200':
+ *         description: Success. Returns actuator data for the specified ID.
+ *       '500':
+ *         description: Internal Server Error.
+ */
+
+router.get('/:id', async (_, res) => {
+    res.send(await actuatorData.sensorJSON(configManager.getUrlFromId(id)))
 })
 
 /**
@@ -49,7 +73,6 @@ router.get('/', async (_, res) => {
  *         description: Internal Server Error.
  *
  */
-
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
@@ -76,7 +99,6 @@ router.put('/:id', async (req, res) => {
  *       '500':
  *         description: Internal Server Error.
  */
-
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     await configManager.removeUrl(configManager.getUrlFromId(id));
