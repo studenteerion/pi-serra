@@ -1,12 +1,12 @@
 const fs = require('fs').promises;
 
-async function getUrlById(id) {
+async function getUrlById(filePath, id) {
     try {
-        const data = await fs.readFile('./config_files/....', 'utf8');
+        const data = await fs.readFile(filePath, 'utf8');
         const jsonObject = JSON.parse(data);
 
         for (let i = 0; i < jsonObject.length; i++) {
-            if (jsonObject[i].id === id) {
+            if (jsonObject[i].id === +id) {
                 return jsonObject[i].url;
             }
         }
@@ -16,14 +16,14 @@ async function getUrlById(id) {
     }
 }
 
-async function addUrl(id, url) {
+async function addUrl(filePath, id, url) {
     try {
-        const data = await fs.readFile('./sensors_list.json', 'utf8');
+        const data = await fs.readFile(filePath, 'utf8');
         const jsonObject = JSON.parse(data);
 
         jsonObject.push({ id: id, url: url });
 
-        await fs.writeFile('./sensors_list.json', JSON.stringify(jsonObject));
+        await fs.writeFile(filePath, JSON.stringify(jsonObject));
     } catch (err) {
         console.error('Error:', err);
     }
@@ -31,7 +31,7 @@ async function addUrl(id, url) {
 
 async function removeUrl(id) {
     try {
-        const data = await fs.readFile('./sensors_list.json', 'utf8');
+        const data = await fs.readFile(filePath, 'utf8');
         const jsonObject = JSON.parse(data);
 
         for (let i = 0; i < jsonObject.length; i++) {
@@ -41,7 +41,7 @@ async function removeUrl(id) {
             }
         }
 
-        await fs.writeFile('./sensors_list.json', JSON.stringify(jsonObject));
+        await fs.writeFile(filePath, JSON.stringify(jsonObject));
     } catch (err) {
         console.error('Error:', err);
     }

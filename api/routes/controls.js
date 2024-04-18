@@ -44,7 +44,7 @@ router.get('./', async (_, res) => {
  */
 
 router.get('/:id', async (_, res) => {
-    res.send(await actuatorData.sensorJSON(configManager.getUrlFromId(id)))
+    res.send(await actuatorData.sensorJSON(configManager.getUrlById('config_files/actuator_list.json', id)))
 })
 
 /**
@@ -76,7 +76,9 @@ router.get('/:id', async (_, res) => {
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
-    await controls(configManager.getUrlFromId(id), status);
+    console.log("Preparing");
+    await controls(await configManager.getUrlById('config_files/actuator_list.json', id), status);
+    console.log("Updated succesfully")
     res.send('Status changed successfully');
 });
 
@@ -101,7 +103,7 @@ router.put('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    await configManager.removeUrl(configManager.getUrlFromId(id));
+    await configManager.removeUrl(configManager.getUrlById('config_files/actuator_list.json', id));
     res.send('Actuator deleted successfully');
 });
 

@@ -41,7 +41,7 @@ router.get('./', async (_, res) => {
  *         description: Internal Server Error.
  */
 router.get('/:id', async (_, res) => {
-  res.send(await sensorData.sensorJSON(configManager.getUrlFromId(id)))
+  res.send(await sensorData.sensorJSON(configManager.getUrlById('config_files/sensor_list.json', id)))
 })
 
 /**
@@ -65,7 +65,7 @@ router.get('/:id', async (_, res) => {
  */
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  await configManager.removeUrl(configManager.getUrlFromId(id));
+  await configManager.removeUrl(configManager.getUrlById('config_files/sensor_list.json', id));
   res.send('Sensor deleted successfully');
 });
 
