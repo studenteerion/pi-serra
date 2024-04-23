@@ -19,9 +19,64 @@ const urls = require('../config_files/actuator_list.json')
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('./', async (_, res) => {
+router.get('/', async (_, res) => {
     res.send(await actuatorData.allSensorsJSON(urls.map(item => item.url)))
-  })
+})
+
+/** 
+ * @swagger
+ * /controls:
+ *   post:
+ *     summary: Add an actuator device
+ *     tags: [Controls]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - description
+ *               - url
+ *             properties:
+ *               description:
+ *                 type: string
+ *               url:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: URL added successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 id:
+ *                   type: string
+ *       '500':
+ *         description: Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.post('/', async (req, res) => {
+    const { description, url } = req.body;
+    const filePath = 'config_files/actuator_list.json';
+
+    try {
+        const id = await configManager.addUrl(filePath, description, url);
+        res.status(200).json({ message: 'URL added successfully', id });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 /**
  * @swagger
@@ -43,7 +98,8 @@ router.get('./', async (_, res) => {
  *         description: Internal Server Error.
  */
 
-router.get('/:id', async (_, res) => {
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
     res.send(await actuatorData.sensorJSON(configManager.getUrlById('config_files/actuator_list.json', id)))
 })
 

@@ -18,6 +18,7 @@
     "mongoose": "^8.1.2",
     "socket.io": "^4.7.4",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.1"
   }
 }

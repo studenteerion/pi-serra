@@ -1,10 +1,1 @@
-[
-    {
-        "id": 1,
-        "url": "http://192.168.112.53/"
-    },
-    {
-        "id": 2,
-        "url": "http://192.168.112.41/"
-    }
-]
+[{"id":"a1736624-0f33-4c20-a04e-e8a6a059d2c4","description":"Lampadina","url":"http://192.168.113.53/"},{"id":"d074cada-9be2-4749-90ae-1271f0a27fcc","description":"Pompa","url":"http://192.168.113.40/"}]

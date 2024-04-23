@@ -1,6 +1,7 @@
 [
     {
         "id": 1,
+        "description": "Sensore DHT22",
         "url": "http://192.168.112.39"
     }
 ]
