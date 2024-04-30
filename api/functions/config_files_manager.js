@@ -2,15 +2,17 @@ const fs = require('fs').promises;
 const { v4: uuidv4 } = require('uuid');
 
 async function getUrlById(filePath, id) {
+    console.log("ID: " + id);
     try {
         const data = await fs.readFile(filePath, 'utf8');
         const jsonObject = JSON.parse(data);
 
         for (let i = 0; i < jsonObject.length; i++) {
-            if (jsonObject[i].id === +id) {
+            if (jsonObject[i].id == id) {
                 return jsonObject[i].url;
             }
         }
+        console.log("ID not found");
         return null;
     } catch (err) {
         console.error('Error:', err);
@@ -44,8 +46,9 @@ async function removeUrl(filePath, id) {
         if (index !== -1) {
             jsonObject.splice(index, 1);
             await fs.writeFile(filePath, JSON.stringify(jsonObject));
+            console.log("URL removed successfully");
         } else {
-            throw new Error('ID not found');
+            console.log("ID not found");
         }
     } catch (err) {
         console.error('Error:', err);
@@ -53,4 +56,15 @@ async function removeUrl(filePath, id) {
     }
 }
 
-module.exports = { getUrlById, addUrl, removeUrl };
+async function getAllUrls(filePath) {
+    try {
+        const data = await fs.readFile(filePath, 'utf8');
+        return data.map(item => item.url);
+    }
+    catch (err) {
+        console.error('Error:', err);
+    }
+}
+
+
+module.exports = { getUrlById, addUrl, removeUrl, getAllUrls};

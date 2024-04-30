@@ -4,8 +4,8 @@ const actuatorData = require('../functions/getjson')
 const axios = require("axios").create();
 const controls = require('../functions/changestatus.js')
 const configManager = require('../functions/config_files_manager.js')
-
-const urls = require('../config_files/actuator_list.json')
+const filePath = 'config_files/actuators_list.json';
+const urls = require('../config_files/actuators_list.json')
 
 /**
  * @swagger
@@ -20,7 +20,7 @@ const urls = require('../config_files/actuator_list.json')
  *         description: Internal Server Error.
  */
 router.get('/', async (_, res) => {
-    res.send(await actuatorData.allSensorsJSON(urls.map(item => item.url)))
+    res.send(await sensorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
 })
 
 /** 
@@ -67,7 +67,6 @@ router.get('/', async (_, res) => {
  */
 router.post('/', async (req, res) => {
     const { description, url } = req.body;
-    const filePath = 'config_files/actuator_list.json';
 
     try {
         const id = await configManager.addUrl(filePath, description, url);
@@ -100,7 +99,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    res.send(await actuatorData.sensorJSON(configManager.getUrlById('config_files/actuator_list.json', id)))
+    res.send(await actuatorData.sensorJSON(await configManager.getUrlById(filePath, id)))
 })
 
 /**
@@ -133,7 +132,7 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     console.log("Preparing");
-    await controls(await configManager.getUrlById('config_files/actuator_list.json', id), status);
+    await controls(await configManager.getUrlById(filePath, id), status);
     console.log("Updated succesfully")
     res.send('Status changed successfully');
 });
@@ -159,7 +158,7 @@ router.put('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    await configManager.removeUrl(configManager.getUrlById('config_files/actuator_list.json', id));
+    await configManager.removeUrl(filePath, id);
     res.send('Actuator deleted successfully');
 });
 

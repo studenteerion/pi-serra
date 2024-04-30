@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const sensorData = require('../functions/getjson')
 const db = require('../functions/db');
-
+const configManager = require('../functions/config_files_manager.js')
 const urls = require('../config_files/sensors_list.json')
+const filePath = 'config_files/sensors_list.json';
 
 /**
  * @swagger
@@ -17,8 +18,8 @@ const urls = require('../config_files/sensors_list.json')
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('./', async (_, res) => {
-  res.send(await sensorData.allSensorsJSON(urls.map(item => item.url)))
+router.get('/', async (_, res) => {
+  res.send(await sensorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
 })
 
 /** 
@@ -65,7 +66,7 @@ router.get('./', async (_, res) => {
  */
 router.post('/', async (req, res) => {
   const { description, url } = req.body;
-  const filePath = 'config_files/sensors_list.json';
+  
 
   try {
       const id = await configManager.addUrl(filePath, description, url);
@@ -86,7 +87,7 @@ router.post('/', async (req, res) => {
  *       - in: path
  *         name: id
  *         schema:
- *           type: integer
+ *           type: string
  *         required: true
  *         description: The ID of the sensor.
  *     responses:
@@ -97,7 +98,7 @@ router.post('/', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  res.send(await sensorData.sensorJSON(configManager.getUrlById('config_files/sensor_list.json', id)))
+  res.send(await sensorData.sensorJSON(await configManager.getUrlById(filePath, id)))
 })
 
 /**
@@ -110,7 +111,7 @@ router.get('/:id', async (req, res) => {
  *       - in: path
  *         name: id
  *         schema:
- *           type: integer
+ *           type: string
  *         required: true
  *         description: The ID of the sensor to delete.
  *     responses:
@@ -121,7 +122,7 @@ router.get('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  await configManager.removeUrl(configManager.getUrlById('config_files/sensor_list.json', id));
+  await configManager.removeUrl(filePath, id);
   res.send('Sensor deleted successfully');
 });
 
