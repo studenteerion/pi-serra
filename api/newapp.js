@@ -28,7 +28,7 @@ app.use('/sensors', require('./routes/sensors'));
 app.use('/controls', require('./routes/controls'));
 
 (async () => {
-  // await db.connect();
+  await db.connect();
 })().then(() => {
   //avvio server e ascolto di richieste HTTP
   server.listen(8080, () => {

@@ -65,8 +65,6 @@ router.get('/', async (_, res) => {
  */
 router.post('/', async (req, res) => {
   const { description, url } = req.body;
-  
-
   try {
       const id = await configManager.addUrl(filePath, description, url);
       res.status(200).json({ message: 'URL added successfully', id });
@@ -168,7 +166,7 @@ router.get("/db-data/last", async (_, res) => {
 
 /**
  * @swagger
- * /sensors/db-data:
+ * /sensors/db-data/all:
  *   get:
  *     tags:
  *       - Sensors
@@ -205,7 +203,7 @@ router.get("/db-data/last", async (_, res) => {
  *                     example: "2024-04-11T01:14:00Z"
  */
 
-router.get("/db-data", async (_, res) => {
+router.get("/db-data/all", async (_, res) => {
   res.json(await db.getData(false));
 });
 

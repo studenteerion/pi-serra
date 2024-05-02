@@ -11,6 +11,7 @@ async function sensorJSON(url) {
     
     } catch (error) {
         console.error(`Errore nel richiedere il json del sensore ${url}: ${error}`);
+        return `Errore nel richiedere il json del sensore ${url}: ${error}`;
     }
 }
 
