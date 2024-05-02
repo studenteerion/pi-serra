@@ -2,9 +2,9 @@ const axios = require("axios").create();
 
 async function sensorJSON(url) {
     try {
-    console.log(`${url}/json`);
+    //console.log(`${url}/json`);
     const response = await axios({
-        url: `${url}json`,
+        url: `${url}/json`,
         method: "get",
     });
 
@@ -12,6 +12,7 @@ async function sensorJSON(url) {
     
     } catch (error) {
         console.error(`Errore nel richiedere il json del sensore ${url}: ${error}`);
+        return `Errore nel richiedere il json del sensore ${url}: ${error}`;
     }
 }
 
