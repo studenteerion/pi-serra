@@ -20,7 +20,7 @@ const urls = require('../config_files/actuators_list.json')
  *         description: Internal Server Error.
  */
 router.get('/', async (_, res) => {
-    res.send(await sensorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
+    res.send(await actuatorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
 })
 
 /** 

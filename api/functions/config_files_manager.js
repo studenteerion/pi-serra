@@ -59,7 +59,8 @@ async function removeUrl(filePath, id) {
 async function getAllUrls(filePath) {
     try {
         const data = await fs.readFile(filePath, 'utf8');
-        return data.map(item => item.url);
+        const jsonObject = JSON.parse(data);
+        return jsonObject.map(item => item.url);
     }
     catch (err) {
         console.error('Error:', err);
