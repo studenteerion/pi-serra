@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const actuatorData = require('../functions/getjson')
-const axios = require("axios").create();
 const controls = require('../functions/changestatus.js')
 const configManager = require('../functions/config_files_manager.js')
 const filePath = 'config_files/actuators_list.json';
-const urls = require('../config_files/actuators_list.json')
 
 /**
  * @swagger
@@ -20,7 +18,19 @@ const urls = require('../config_files/actuators_list.json')
  *         description: Internal Server Error.
  */
 router.get('/', async (_, res) => {
-    res.send(await actuatorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
+    const devices = await configManager.getAllDevices(filePath)
+    console.log(devices);
+    const response = []
+    for (const device of devices) {
+        console.log(device.url);
+        response.push({
+            id: device.id,
+            description: device.description,
+            values: await actuatorData.sensorJSON(device.url)
+        })
+    }
+
+    res.send(response)
 })
 
 /** 
@@ -87,7 +97,7 @@ router.post('/', async (req, res) => {
  *       - in: path
  *         name: id
  *         schema:
- *           type: integer
+ *           type: string
  *         required: true
  *         description: The ID of the actuator.
  *     responses:
@@ -99,7 +109,12 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    res.send(await actuatorData.sensorJSON(await configManager.getUrlById(filePath, id)))
+    const device = await configManager.getDeviceById(filePath, id)
+    const response = {
+        description: device.description,
+        values: await actuatorData.sensorJSON(device.url)
+    }
+    res.send(response)
 })
 
 /**

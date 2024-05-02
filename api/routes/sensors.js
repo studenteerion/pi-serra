@@ -3,7 +3,6 @@ const router = express.Router();
 const sensorData = require('../functions/getjson')
 const db = require('../functions/db');
 const configManager = require('../functions/config_files_manager.js')
-const urls = require('../config_files/sensors_list.json')
 const filePath = 'config_files/sensors_list.json';
 
 /**

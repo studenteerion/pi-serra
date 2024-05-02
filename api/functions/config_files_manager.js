@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const { v4: uuidv4 } = require('uuid');
 
-async function getUrlById(filePath, id) {
+async function getDeviceById(filePath, id) {
     console.log("ID: " + id);
     try {
         const data = await fs.readFile(filePath, 'utf8');
@@ -9,7 +9,7 @@ async function getUrlById(filePath, id) {
 
         for (let i = 0; i < jsonObject.length; i++) {
             if (jsonObject[i].id == id) {
-                return jsonObject[i].url;
+                return jsonObject[i];
             }
         }
         console.log("ID not found");
@@ -56,11 +56,11 @@ async function removeUrl(filePath, id) {
     }
 }
 
-async function getAllUrls(filePath) {
+async function getAllDevices(filePath) {
     try {
         const data = await fs.readFile(filePath, 'utf8');
         const jsonObject = JSON.parse(data);
-        return jsonObject.map(item => item.url);
+        return jsonObject;
     }
     catch (err) {
         console.error('Error:', err);
@@ -68,4 +68,4 @@ async function getAllUrls(filePath) {
 }
 
 
-module.exports = { getUrlById, addUrl, removeUrl, getAllUrls};
+module.exports = { getDeviceById, addUrl, removeUrl, getAllDevices};
