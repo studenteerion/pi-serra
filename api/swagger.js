@@ -6,7 +6,7 @@ const options = {
     openapi: "3.1.0",
     info: {
       title: "pi-serra",
-      version: "0.1.0",
+      version: "0.2.1",
       description:
         "API che permette la gestione della serra della scuola. Offre dati collezionati da sensori e la possibilità di attivare attuatori."
     },

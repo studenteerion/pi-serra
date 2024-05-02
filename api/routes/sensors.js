@@ -18,7 +18,19 @@ const filePath = 'config_files/sensors_list.json';
  *         description: Internal Server Error.
  */
 router.get('/', async (_, res) => {
-  res.send(await sensorData.allSensorsJSON(await configManager.getAllUrls(filePath)))
+  const devices = await configManager.getAllDevices(filePath)
+    console.log(devices);
+    const response = []
+    for (const device of devices) {
+        console.log(device.url);
+        response.push({
+            id: device.id,
+            description: device.description,
+            values: await sensorData.sensorJSON(device.url)
+        })
+    }
+
+    res.send(response)
 })
 
 /** 
@@ -95,7 +107,12 @@ router.post('/', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  res.send(await sensorData.sensorJSON(await configManager.getUrlById(filePath, id)))
+    const device = await configManager.getDeviceById(filePath, id)
+    const response = {
+        description: device.description,
+        values: await sensorData.sensorJSON(device.url)
+    }
+    res.send(response)
 })
 
 /**
