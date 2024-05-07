@@ -17,7 +17,7 @@ const filePath = 'config_files/sensors_list.json';
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('/', async (_, res) => {
+router.get('/', API.authenticateKey, async (_, res) => {
   const devices = await configManager.getAllDevices(filePath)
     console.log(devices);
     const response = []
@@ -75,7 +75,7 @@ router.get('/', async (_, res) => {
  *                 error:
  *                   type: string
  */
-router.post('/', async (req, res) => {
+router.post('/', API.authenticateKey, async (req, res) => {
   const { description, url } = req.body;
   try {
       const id = await configManager.addUrl(filePath, description, url);
@@ -105,7 +105,7 @@ router.post('/', async (req, res) => {
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', API.authenticateKey, async (req, res) => {
   const { id } = req.params;
     const device = await configManager.getDeviceById(filePath, id)
     const response = {
@@ -134,7 +134,7 @@ router.get('/:id', async (req, res) => {
  *       '500':
  *         description: Internal Server Error.
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', API.authenticateKey, async (req, res) => {
   const { id } = req.params;
   await configManager.removeUrl(filePath, id);
   res.send('Sensor deleted successfully');
@@ -177,7 +177,7 @@ router.delete('/:id', async (req, res) => {
  *                    description: The time when the data was recorded.
  *                    example: "2024-04-11T01:14:00Z"
  */
-router.get("/db-data/last", async (_, res) => {
+router.get("/db-data/last", API.authenticateKey, async (_, res) => {
   res.json(await db.getData(true));
 });
 
@@ -220,7 +220,7 @@ router.get("/db-data/last", async (_, res) => {
  *                     example: "2024-04-11T01:14:00Z"
  */
 
-router.get("/db-data/all", async (_, res) => {
+router.get("/db-data/all", API.authenticateKey, async (_, res) => {
   res.json(await db.getData(false));
 });
 

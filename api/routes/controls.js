@@ -3,6 +3,7 @@ const router = express.Router();
 const actuatorData = require('../functions/getjson')
 const controls = require('../functions/changestatus.js')
 const configManager = require('../functions/config_files_manager.js')
+const API = require('../functions/api_auth');
 const filePath = 'config_files/actuators_list.json';
 
 /**
@@ -17,7 +18,7 @@ const filePath = 'config_files/actuators_list.json';
  *       '500':
  *         description: Internal Server Error.
  */
-router.get('/', async (_, res) => {
+router.get('/', API.authenticateKey, async (_, res) => {
     const devices = await configManager.getAllDevices(filePath)
     console.log(devices);
     const response = []
@@ -75,7 +76,7 @@ router.get('/', async (_, res) => {
  *                 error:
  *                   type: string
  */
-router.post('/', async (req, res) => {
+router.post('/', API.authenticateKey, async (req, res) => {
     const { description, url } = req.body;
 
     try {
@@ -107,7 +108,7 @@ router.post('/', async (req, res) => {
  *         description: Internal Server Error.
  */
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', API.authenticateKey, async (req, res) => {
     const { id } = req.params;
     const device = await configManager.getDeviceById(filePath, id)
     const response = {
@@ -143,7 +144,7 @@ router.get('/:id', async (req, res) => {
  *         description: Internal Server Error.
  *
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', API.authenticateKey, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     console.log("Preparing");
@@ -171,7 +172,7 @@ router.put('/:id', async (req, res) => {
  *       '500':
  *         description: Internal Server Error.
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', API.authenticateKey, async (req, res) => {
     const { id } = req.params;
     await configManager.removeUrl(filePath, id);
     res.send('Actuator deleted successfully');
