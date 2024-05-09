@@ -3,42 +3,56 @@ const router = express.Router();
 const sensorData = require('../functions/getjson')
 const db = require('../functions/db');
 const configManager = require('../functions/config_files_manager.js')
+const API = require('../functions/api_auth');
 const filePath = 'config_files/sensors_list.json';
 
 /**
  * @swagger
+ * components:
+ *   securitySchemes:
+ *     ApiKeyAuth:   # arbitrary name for the security scheme
+ *       type: apiKey
+ *       in: header
+ *       name: X-API-KEY  # name of the header, parameter or cookie
  * /sensors:
  *   get:
  *     summary: Retrieve data from all connected sensors.
  *     tags: [Sensors]
+ *     security:
+ *       - ApiKeyAuth: [] 
  *     responses:
  *       '200':
  *         description: Success. Returns data from all connected sensors.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
 router.get('/', API.authenticateKey, async (_, res) => {
   const devices = await configManager.getAllDevices(filePath)
-    console.log(devices);
-    const response = []
-    for (const device of devices) {
-        console.log(device.url);
-        response.push({
-            id: device.id,
-            description: device.description,
-            values: await sensorData.sensorJSON(device.url)
-        })
-    }
+  console.log(devices);
+  const response = []
+  for (const device of devices) {
+    console.log(device.url);
+    response.push({
+      id: device.id,
+      description: device.description,
+      values: await sensorData.sensorJSON(device.url)
+    })
+  }
 
-    res.send(response)
+  res.send(response)
 })
 
-/** 
+
+/**
  * @swagger
  * /sensors:
  *   post:
  *     summary: Add a sensor device
  *     tags: [Sensors]
+ *     security:
+ *       - ApiKeyAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -65,6 +79,8 @@ router.get('/', API.authenticateKey, async (_, res) => {
  *                   type: string
  *                 id:
  *                   type: string
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Error
  *         content:
@@ -78,13 +94,14 @@ router.get('/', API.authenticateKey, async (_, res) => {
 router.post('/', API.authenticateKey, async (req, res) => {
   const { description, url } = req.body;
   try {
-      const id = await configManager.addUrl(filePath, description, url);
-      res.status(200).json({ message: 'URL added successfully', id });
+    const id = await configManager.addUrl(filePath, description, url);
+    res.status(200).json({ message: 'URL added successfully', id });
   } catch (err) {
-      console.error('Error:', err);
-      res.status(500).json({ error: err.message });
+    console.error('Error:', err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 /**
  * @swagger
@@ -99,21 +116,26 @@ router.post('/', API.authenticateKey, async (req, res) => {
  *           type: string
  *         required: true
  *         description: The ID of the sensor.
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       '200':
  *         description: Success. Returns sensor data for the specified ID.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
 router.get('/:id', API.authenticateKey, async (req, res) => {
   const { id } = req.params;
-    const device = await configManager.getDeviceById(filePath, id)
-    const response = {
-        description: device.description,
-        values: await sensorData.sensorJSON(device.url)
-    }
-    res.send(response)
+  const device = await configManager.getDeviceById(filePath, id)
+  const response = {
+    description: device.description,
+    values: await sensorData.sensorJSON(device.url)
+  }
+  res.send(response)
 })
+
 
 /**
  * @swagger
@@ -128,9 +150,13 @@ router.get('/:id', API.authenticateKey, async (req, res) => {
  *           type: string
  *         required: true
  *         description: The ID of the sensor to delete.
+ *     security:
+ *       - ApiKeyAuth: []
  *     responses:
  *       '200':
- *         description: sensor deleted successfully.
+ *         description: Sensor deleted successfully.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
@@ -147,6 +173,8 @@ router.delete('/:id', API.authenticateKey, async (req, res) => {
  *     tags:
  *       - Sensors
  *     summary: Get the last sensor data saved in the database
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     responses:
  *       200:
  *         description: Returns the last instance of data
@@ -176,6 +204,12 @@ router.delete('/:id', API.authenticateKey, async (req, res) => {
  *                    format: date-time
  *                    description: The time when the data was recorded.
  *                    example: "2024-04-11T01:14:00Z"
+ *       '200':
+ *         description: Success. Returns the last instance of data saved in the database
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
+ *       '500':
+ *         description: Internal Server Error.
  */
 router.get("/db-data/last", API.authenticateKey, async (_, res) => {
   res.json(await db.getData(true));
@@ -188,6 +222,8 @@ router.get("/db-data/last", API.authenticateKey, async (_, res) => {
  *     tags:
  *       - Sensors
  *     summary: Get all sensor data saved in the database
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     responses:
  *       200:
  *         description: Returns the last instance of data
@@ -218,10 +254,16 @@ router.get("/db-data/last", API.authenticateKey, async (_, res) => {
  *                     format: date-time
  *                     description: The time when the data was recorded.
  *                     example: "2024-04-11T01:14:00Z"
+ *       '200':
+ *         description: Success. Returns every instance of data saved in the database
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
+ *       '500':
+ *         description: Internal Server Error.
  */
-
 router.get("/db-data/all", API.authenticateKey, async (_, res) => {
   res.json(await db.getData(false));
 });
+
 
 module.exports = router;

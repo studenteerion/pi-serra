@@ -12,9 +12,13 @@ const filePath = 'config_files/actuators_list.json';
  *   get:
  *     summary: Retrieve data from all connected actuators.
  *     tags: [Controls]
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     responses:
  *       '200':
  *         description: Success. Returns data from all connected actuators.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
@@ -40,6 +44,8 @@ router.get('/', API.authenticateKey, async (_, res) => {
  *   post:
  *     summary: Add an actuator device
  *     tags: [Controls]
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     requestBody:
  *       required: true
  *       content:
@@ -66,6 +72,8 @@ router.get('/', API.authenticateKey, async (_, res) => {
  *                   type: string
  *                 id:
  *                   type: string
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Error
  *         content:
@@ -94,6 +102,8 @@ router.post('/', API.authenticateKey, async (req, res) => {
  *   get:
  *     summary: Retrieve actuator data for a specific ID.
  *     tags: [Controls]
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     parameters:
  *       - in: path
  *         name: id
@@ -104,6 +114,8 @@ router.post('/', API.authenticateKey, async (req, res) => {
  *     responses:
  *       '200':
  *         description: Success. Returns actuator data for the specified ID.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
@@ -124,6 +136,8 @@ router.get('/:id', API.authenticateKey, async (req, res) => {
  *   put:
  *     summary: Update the status of an actuator.
  *     tags: [Controls]
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     parameters:
  *       - in: path
  *         name: id
@@ -140,6 +154,8 @@ router.get('/:id', API.authenticateKey, async (req, res) => {
  *     responses:
  *       '200':
  *         description: Status changed successfully.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  *
@@ -159,6 +175,8 @@ router.put('/:id', API.authenticateKey, async (req, res) => {
  *   delete:
  *     summary: Delete an actuator.
  *     tags: [Controls]
+ *     security:
+ *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
  *     parameters:
  *       - in: path
  *         name: id
@@ -169,6 +187,8 @@ router.put('/:id', API.authenticateKey, async (req, res) => {
  *     responses:
  *       '200':
  *         description: Actuator deleted successfully.
+ *       '401':
+ *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
  */
