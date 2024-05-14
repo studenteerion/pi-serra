@@ -8,7 +8,8 @@ const dataSchema = new mongoose.Schema({
     valueList: [{
         description: String,
         value: String
-    }]
+    },
+    ]
 });
 
 module.exports = mongoose.model('SensorValues', dataSchema);

@@ -121,13 +121,17 @@ router.post('/', API.authenticateKey, async (req, res) => {
  */
 
 router.get('/:id', API.authenticateKey, async (req, res) => {
+    try {
     const { id } = req.params;
     const device = await configManager.getDeviceById(filePath, id)
     const response = {
-        description: device.description,
-        values: await actuatorData.sensorJSON(device.url)
+      description: device.description,
+      values: await actuatorData.sensorJSON(device.url)
     }
     res.send(response)
+  } catch (error) {
+    res.status(401).send({ error: { code: 404, message: "Device not found." } });
+  }
 })
 
 /**
@@ -164,7 +168,7 @@ router.put('/:id', API.authenticateKey, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     console.log("Preparing");
-    await controls(await configManager.getUrlById(filePath, id), status);
+    await controls(await configManager.getDeviceById(filePath, id), status);
     console.log("Updated succesfully")
     res.send('Status changed successfully');
 });

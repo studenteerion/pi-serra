@@ -127,13 +127,18 @@ router.post('/', API.authenticateKey, async (req, res) => {
  *         description: Internal Server Error.
  */
 router.get('/:id', API.authenticateKey, async (req, res) => {
-  const { id } = req.params;
-  const device = await configManager.getDeviceById(filePath, id)
-  const response = {
-    description: device.description,
-    values: await sensorData.sensorJSON(device.url)
+  try {
+    const { id } = req.params;
+    const device = await configManager.getDeviceById(filePath, id)
+    const response = {
+      description: device.description,
+      values: await sensorData.sensorJSON(device.url)
+    }
+    res.send(response)
+  } catch (error) {
+    res.status(404).send({ error: { code: 404, message: "Device not found." } });
   }
-  res.send(response)
+
 })
 
 

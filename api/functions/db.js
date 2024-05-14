@@ -13,9 +13,9 @@ async function connect() {
     });
 }
 
-async function getData(findOne) {
+async function getData(getOne) {
     try {
-        if (findOne){
+        if (getOne){
             json = await Sensor.findOne().sort({ Time: -1 });
         }
         else {
