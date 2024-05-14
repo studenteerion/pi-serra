@@ -7,9 +7,10 @@ const dataSchema = new mongoose.Schema({
     },
     valueList: [{
         description: String,
-        value: String
-    },
-    ]
+        value: String,
+        _id: false  // disable auto generation of _id for sub-documents
+    }]
 });
+
 
 module.exports = mongoose.model('SensorValues', dataSchema);

@@ -146,32 +146,51 @@ router.get('/:id', API.authenticateKey, async (req, res) => {
  *       - in: path
  *         name: id
  *         schema:
- *           type: integer
- *         required: true
- *         description: The ID of the actuator.
- *       - in: body
- *         name: status
- *         schema:
  *           type: string
  *         required: true
- *         description: The desired status value for the actuator.
+ *         description: The ID of the actuator.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *             required:
+ *               - status
  *     responses:
  *       '200':
  *         description: Status changed successfully.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 'Status changed successfully'
+ *       '400':
+ *         description: Bad Request. The request body is not provided or not in the correct format.
  *       '401':
  *         description: Unauthorized. You are not allowed to access this resource.
  *       '500':
  *         description: Internal Server Error.
- *
  */
 router.put('/:id', API.authenticateKey, async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
+
+    if (!status) {
+        res.status(400).send('Bad Request. The request body must be a JSON object with a "status" property.');
+        return;
+    }
+
     console.log("Preparing");
-    await controls(await configManager.getDeviceById(filePath, id), status);
-    console.log("Updated succesfully")
+    const device = await configManager.getDeviceById(filePath, id)
+    await controls(device.url, status);
+    console.log("Updated successfully")
     res.send('Status changed successfully');
 });
+
 
 /**
  * @swagger
