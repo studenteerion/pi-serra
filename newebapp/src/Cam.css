@@ -1,0 +1,133 @@
+.btn {
+	float: left;
+	border: none;
+	color: black;
+	font-size: 30px;
+	background-color: transparent;
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+}
+
+.navbar img {
+	height: auto;
+	max-width: 20%;
+}
+
+.pie {
+	--w: 150px;
+
+	width: var(--w);
+	aspect-ratio: 1;
+	position: relative;
+	display: inline-grid;
+	place-content: center;
+	margin: 5px;
+	font-size: 25px;
+	font-weight: bold;
+	font-family: sans-serif;
+}
+
+.pie:before {
+	content: "";
+	position: absolute;
+	border-radius: 50%;
+	inset: 0;
+	background: conic-gradient(var(--c) calc(var(--p)*1%), #0000 0);
+	-webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+	mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+}
+
+.pie:before {
+	background:
+		radial-gradient(farthest-side, var(--c) 98%, #0000) top/var(--b) var(--b) no-repeat,
+		conic-gradient(var(--c) calc(var(--p)*1%), #0000 0);
+}
+
+.pie:after {
+	content: "";
+	position: absolute;
+	border-radius: 50%;
+	inset: calc(50% - var(--b)/2);
+	background: var(--c);
+	transform: rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
+}
+
+.temperatura {
+	margin-bottom: 5%;
+	border-radius: 25px;
+	padding: 20px;
+	width: 400px;
+	height: 210px;
+	position: absolute;
+	text-align: center;
+	-webkit-box-shadow: 4px 30px 30px -10px #000000;
+	-moz-box-shadow: 4px 5px 30px -10px #000000;
+	-o-box-shadow: 4px 5px 30px -10px #000000;
+	box-shadow: 0px 0px 30px -10px #000000;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	opacity: 80%;
+}
+
+.umidita {
+	margin-bottom: 5%;
+	border-radius: 25px;
+	padding: 20px;
+	width: 400px;
+	height: 210px;
+	position: absolute;
+	text-align: center;
+	-webkit-box-shadow: 4px 30px 30px -10px #000000;
+	-moz-box-shadow: 4px 5px 30px -10px #000000;
+	-o-box-shadow: 4px 5px 30px -10px #000000;
+	box-shadow: 0px 0px 30px -10px #000000;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	opacity: 80%;
+}
+
+.terreno {
+	margin-bottom: 5%;
+	border-radius: 25px;
+	padding: 20px;
+	width: 400px;
+	height: 210px;
+	position: absolute;
+	text-align: center;
+	-webkit-box-shadow: 4px 30px 30px -10px #000000;
+	-moz-box-shadow: 4px 5px 30px -10px #000000;
+	-o-box-shadow: 4px 5px 30px -10px #000000;
+	box-shadow: 0px 0px 30px -10px #000000;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	opacity: 80%;
+}
+
+.img {
+	margin:0 auto;
+	border-radius: 25px;
+	padding: 10px;
+	width: 1150px;
+	height: 850px;
+	position: absolute;
+	top: 8%;
+	left: 20%;
+	text-align: center;
+	-webkit-box-shadow: 4px 30px 30px -10px #000000;
+	-moz-box-shadow: 4px 5px 30px -10px #000000;
+	-o-box-shadow: 4px 5px 30px -10px #000000;
+	box-shadow: 0px 0px 30px -10px #000000;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	opacity: 100%;
+}
