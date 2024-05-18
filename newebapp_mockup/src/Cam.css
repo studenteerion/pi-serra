@@ -1,0 +1,92 @@
+.stream {
+	margin:0 auto;
+	border-radius: 25px;
+	padding: 10px;
+	width: 1150px;
+	height: 850px;
+	position: absolute;
+	top: 8%;
+	left: 20%;
+	text-align: center;
+	-webkit-box-shadow: 4px 30px 30px -10px #000000;
+	-moz-box-shadow: 4px 5px 30px -10px #000000;
+	-o-box-shadow: 4px 5px 30px -10px #000000;
+	box-shadow: 0px 0px 30px -10px #000000;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: white;
+	opacity: 100%;
+}
+
+.stream img {
+	position: absolute;
+	padding: 10px;
+	margin-left: 0;
+	bottom: 10px;
+	width: 1130px;
+	height: 800px;
+	border-radius: 25px;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.stream img {
+	position: absolute;
+	padding: 10px;
+	margin-left: 0;
+	bottom: 10px;
+	border-radius: 25px;
+	z-index: 1;
+}
+
+.buttons1 {
+	position: relative;
+	top: 150px;
+	left: 565px;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+.buttons2 {
+	position: relative;
+	top: 150px;
+	left: 565px;
+	transform: translate(-50%, -50%);
+	z-index: 2;
+}
+.buttons3 {
+	position: relative;
+	top: 150px;
+	left: 565px;
+	transform: translate(-50%, -50%);
+	z-index: 2;;
+}
+
+.button {
+	border: none;
+	color: white;
+	height: 250px;
+	width: 550px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}

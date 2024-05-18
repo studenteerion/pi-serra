@@ -1,0 +1,80 @@
+.actuators-container {
+    display: flex;
+    justify-content: center;
+}
+
+.actuators-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-column-gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.actuator, .add-actuator {
+    margin-top: 5%;
+    border-radius: 25px;
+    padding: 20px;
+    width: 300px;
+    height: 210px;
+    text-align: center;
+    box-shadow: 0px 0px 30px -10px #000000;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    opacity: 80%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.add-actuator{
+    cursor: pointer;
+}
+
+.actuator img {
+    padding: 10px;
+    margin-left: calc(80px - 10px);
+}
+
+.add-actuator img {
+    padding: 10px;
+    margin-left: calc(80px - 10px);
+}
+
+.actuator:hover {
+    transform: scale(1.05);
+}
+
+.actuator:not(:last-child) {
+    margin-bottom: 0; /* Remove bottom margin for all but the last actuator */
+}
+
+.actuator.expanded {
+    transform: translateX(50px); /* Example translation for expansion */
+}
+
+.add-actuator:hover {
+    transform: scale(1.05);
+}
+
+.add-actuator:not(:last-child) {
+    margin-bottom: 0; /* Remove bottom margin for all but the last sensor */
+}
+
+.add-actuator.expanded {
+    transform: translateX(50px); /* Example translation for expansion */
+}
+
+.delete-actuator {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.actuator:hover .delete-actuator {
+    opacity: 1;
+}
