@@ -38,19 +38,28 @@ function Actuators({isCol2Expanded}) {
     const toggleImage = (index) => {
         setActuators(prevActuators => {
             const updatedActuators = [...prevActuators];
+            const currentImage = updatedActuators[index].imageSrc;
+    
+            let newImage;
+            switch (currentImage) {
+                case lampOff: newImage = lampOn; break;
+                case lampOn: newImage = lampOff; break;
+                case pumpOff: newImage = pumpOn; break;
+                case pumpOn: newImage = pumpOff; break;
+                case actuatorOff: newImage = actuatorOn; break;
+                case actuatorOn: newImage = actuatorOff; break;
+                default: newImage = currentImage;
+            }
+    
             updatedActuators[index] = {
                 ...updatedActuators[index],
-                imageSrc: (updatedActuators[index].imageSrc === lampOff) ? lampOn :
-                    (updatedActuators[index].imageSrc === lampOn) ? lampOff :
-                        (updatedActuators[index].imageSrc === pumpOff) ? pumpOn :
-                            (updatedActuators[index].imageSrc === pumpOn) ? pumpOff :
-                                (updatedActuators[index].imageSrc === actuatorOff) ? actuatorOn :
-                                    (updatedActuators[index].imageSrc === actuatorOn) ? actuatorOff :
-                                        updatedActuators[index].imageSrc,
+                imageSrc: newImage,
             };
+    
             return updatedActuators;
         });
     };
+    
 
 
     const addActuator = () => {
