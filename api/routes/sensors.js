@@ -30,18 +30,28 @@ const filePath = 'config_files/sensors_list.json';
  */
 router.get('/', API.authenticateKey, async (_, res) => {
   const devices = await configManager.getAllDevices(filePath)
-  console.log(devices);
-  const response = []
-  for (const device of devices) {
-    console.log(device.url);
-    response.push({
-      id: device.id,
-      description: device.description,
-      values: await sensorData.sensorJSON(device.url)
-    })
-  }
+    console.log(devices);
+    const response = []
+    for (const device of devices) {
+        console.log(device.url);
+        let data
+        let status = 'reachable'; // Assume reachable by default
+        try {
+            data = await sensorData.sensorJSON(device.url)
+        } catch (err) {
+            console.error(`Could not fetch the device: ${err}`);
+            data = undefined
+            status = 'unreachable'; // Update status if unreachable
+        }
+        response.push({
+            id: device.id,
+            description: device.description,
+            status: status, // Include device status in the response
+            values: data
+        })
+    }
 
-  res.send(response)
+    res.send(response)
 })
 
 
