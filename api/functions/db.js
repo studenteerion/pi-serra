@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Sensor = require("./db_dyn_schema");
+const Sensor = require("./db_schema");
 const Database = process.env.Database;
 
 async function connect() {

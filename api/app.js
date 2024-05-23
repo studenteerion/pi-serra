@@ -7,9 +7,9 @@ const cors = require('cors');
 require('dotenv').config();
 
 const db = require('./functions/db');
-const SensorValues = require('./functions/db_dyn_schema')
+const SensorValues = require('./functions/db_schema')
 const swagger = require('./swagger')
-const getJson = require('./functions/getjson')
+const getJson = require('./functions/get_json')
 const sensorList = require('./config_files/sensors_list.json')
 
 app.use(cors());

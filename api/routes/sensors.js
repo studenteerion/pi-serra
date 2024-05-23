@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const sensorData = require('../functions/getjson')
+const sensorData = require('../functions/get_json')
 const db = require('../functions/db');
 const configManager = require('../functions/config_files_manager.js')
 const API = require('../functions/api_auth');

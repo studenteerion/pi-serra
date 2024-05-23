@@ -8,7 +8,7 @@ const dataSchema = new mongoose.Schema({
     valueList: [{
         description: String,
         value: String,
-        _id: false  // disable auto generation of _id for sub-documents
+        _id: false
     }]
 });
 

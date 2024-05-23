@@ -40,7 +40,6 @@ async function checkStatus(id) {
         return data.values[0].Value; // Return the value
     } catch (error) {
         console.error(error);
-        throw error; // Throw the error to be caught by the caller
     }
 }
 
@@ -61,7 +60,7 @@ function Actuators() {
                     return updatedActuators;
                 });
             });
-        }, 1000);
+        }, 3000);
 
         return () => clearInterval(interval); // Clean up the interval on component unmount
     }, []);
