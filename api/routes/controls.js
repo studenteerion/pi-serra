@@ -29,25 +29,24 @@ router.get('/', API.authenticateKey, async (_, res) => {
     for (const device of devices) {
         console.log(device.url);
         let data
-        let status = 'reachable'; // Assume reachable by default
+        let status = 'reachable';
         try {
             data = await actuatorData.sensorJSON(device.url)
         } catch (err) {
             console.error(`Could not fetch the device: ${err}`);
             data = undefined
-            status = 'unreachable'; // Update status if unreachable
+            status = 'unreachable';
         }
         response.push({
             id: device.id,
             description: device.description,
-            status: status, // Include device status in the response
+            status: status,
             values: data
         })
     }
 
     res.send(response)
 })
-
 
 /** 
  * @swagger
@@ -133,16 +132,16 @@ router.post('/', API.authenticateKey, async (req, res) => {
 
 router.get('/:id', API.authenticateKey, async (req, res) => {
     try {
-    const { id } = req.params;
-    const device = await configManager.getDeviceById(filePath, id)
-    const response = {
-      description: device.description,
-      values: await actuatorData.sensorJSON(device.url)
+        const { id } = req.params;
+        const device = await configManager.getDeviceById(filePath, id)
+        const response = {
+            description: device.description,
+            values: await actuatorData.sensorJSON(device.url)
+        }
+        res.send(response)
+    } catch (error) {
+        res.status(401).send({ error: { code: 404, message: "Device not found." } });
     }
-    res.send(response)
-  } catch (error) {
-    res.status(401).send({ error: { code: 404, message: "Device not found." } });
-  }
 })
 
 /**

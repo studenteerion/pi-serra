@@ -1,7 +1,7 @@
 const users = require('../api_keys.json')
 
 const authenticateKey = (req, res, next) => {
-    let api_key = req.header("X-API-KEY"); //Add API key to headers
+    let api_key = req.header("X-API-KEY");
     console.log(api_key);
     let account = users.find((user) => user.api_key == api_key);
     if (account) {
