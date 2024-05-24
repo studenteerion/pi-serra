@@ -1,16 +1,21 @@
+import React, { useState } from 'react';
 import './Button.css';
 
-const Button = ({title, value, progress, color}) => {
+const Button = ({ id }) => {
+    const [status, setStatus] = useState(1);
 
     function handleTestAccendi() {
+        const newStatus = status === 1 ? 0 : 1;
 
         const myHeaders = new Headers();
         myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
         myHeaders.append("Content-Type", "application/json");
 
         const raw = JSON.stringify({
-            "status": "0"
+            "status": newStatus.toString()
         });
+
+        console.log(raw);
 
         const requestOptions = {
             method: "PUT",
@@ -19,12 +24,13 @@ const Button = ({title, value, progress, color}) => {
             redirect: "follow"
         };
 
-        fetch("http://localhost:8080/controls/a1736624-0f33-4c20-a04e-e8a6a059d2c4", requestOptions)
+        fetch(`http://localhost:8080/controls/${id}`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
-    }
 
+        setStatus(newStatus);
+    }
 
     return (
         <div className="Actuators-container">

@@ -16,12 +16,14 @@ var actuatorTemplates = [
         imageSrc: lampOff,
         imageAlt: "Light",
         isOn: false,
+        id: "a1736624-0f33-4c20-a04e-e8a6a059d2c4",
     },
     {
         title: "Water Pump",
         imageSrc: pumpOff,
         imageAlt: "Water Pump",
         isOn: false,
+        id: "d074cada-9be2-4749-90ae-1271f0a27fcc",
     },
 ];
 
@@ -112,7 +114,7 @@ function Actuators({isCol2Expanded}) {
                         <h2>{actuator.title}</h2>
                         <img src={actuator.imageSrc} alt={actuator.imageAlt} />
                         <button onClick={() => toggleImage(index)}>
-                            <Button />
+                            <Button id={actuator.id}/>
                         </button>
                     </div>
                 ))}
