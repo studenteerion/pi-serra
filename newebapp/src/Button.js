@@ -24,7 +24,7 @@ const Button = ({ id }) => {
             redirect: "follow"
         };
 
-        fetch(`http://localhost:8080/controls/${id}`, requestOptions)
+        fetch(`http://192.168.112.55:8080/controls/${id}`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
