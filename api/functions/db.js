@@ -3,19 +3,20 @@ const Sensor = require("./db_dyn_schema");
 const Database = process.env.Database;
 
 async function connect() {
+    console.log(Database);
     await mongoose //connessione al database
-    .connect(Database)
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch((error) => {
-        console.error(`Error connecting to MongoDB: ${error}`);
-    });
+        .connect(Database)
+        .then(() => {
+            console.log("Connected to MongoDB");
+        })
+        .catch((error) => {
+            console.error(`Error connecting to MongoDB: ${error}`);
+        });
 }
 
 async function getData(getOne) {
     try {
-        if (getOne){
+        if (getOne) {
             json = await Sensor.findOne().sort({ Time: -1 });
         }
         else {
@@ -26,7 +27,7 @@ async function getData(getOne) {
     catch (err) {
         console.error(`Errore nella richiesta dati dal database: ${err}`);
         return undefined;
-      }
+    }
 }
 
 async function saveData(sensorData) {
@@ -34,9 +35,9 @@ async function saveData(sensorData) {
         const newSensorData = new Sensor(sensorData);
         await newSensorData.save();
         console.log("Data saved to database");
-      } catch (err) {
+    } catch (err) {
         console.error(`Error trying to save to database: ${err}`);
-      }
+    }
 }
 
 

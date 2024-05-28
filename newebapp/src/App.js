@@ -2,9 +2,9 @@ import './App.css';
 import Cam from './Cam';
 import Header from "./header";
 import Columns from "./Columns";
-import Sensors from "./Sensors";
-import Actuators from "./Actuators";
-import Button from './Button';
+//import Sensors from "./Sensors";
+//import Actuators from "./Actuators";
+//import Button from './Button';
 
 
 function App() {

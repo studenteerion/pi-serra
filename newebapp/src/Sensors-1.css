@@ -1,0 +1,73 @@
+.pie {
+    --w: 150px;
+
+    width: var(--w);
+    aspect-ratio: 1;
+    position: relative;
+    display: inline-grid;
+    place-content: center;
+    margin: 5px;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.pie:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    background: conic-gradient(var(--c) calc(var(--p) * 1%), #0000 0);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+    mask: radial-gradient(farthest-side, #0000 calc(99% - var(--b)), #000 calc(100% - var(--b)));
+}
+
+.pie:before {
+    background: radial-gradient(farthest-side, var(--c) 98%, #0000) top/var(--b) var(--b) no-repeat,
+        conic-gradient(var(--c) calc(var(--p) * 1%), #0000 0);
+}
+
+.pie:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: calc(50% - var(--b) / 2);
+    background: var(--c);
+    transform: rotate(calc(var(--p) * 3.6deg)) translateY(calc(50% - var(--w) / 2));
+}
+
+.sensor-container {
+    display: flex;
+    /* Or use display: grid; */
+    flex-direction: column;
+    /* Stack divs vertically (Flexbox) */
+    grid-template-columns: auto;
+    /* Allow divs to adjust width (Grid) */
+    /* Optional: Add spacing between divs */
+    grid-gap: 20px;
+}
+
+.sensors {
+    margin-top: 5%;
+    margin-left: 15px;
+    border-radius: 25px;
+    padding: 20px;
+    width: 300px;
+    height: 210px;
+    /* Existing styles from your original CSS */
+    margin-bottom: calc(20px - 5%);
+    /* Add vertical spacing between divs (optional) */
+    /* If needed, set a fixed height or use flex-wrap: wrap for Flexbox */
+    /* height: 200px;  */
+    /* flex-wrap: wrap; */
+    text-align: center;
+    -webkit-box-shadow: 4px 30px 30px -10px #000000;
+    -moz-box-shadow: 4px 5px 30px -10px #000000;
+    -o-box-shadow: 4px 5px 30px -10px #000000;
+    box-shadow: 0px 0px 30px -10px #000000;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    opacity: 80%;
+}
