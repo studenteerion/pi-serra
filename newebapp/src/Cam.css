@@ -56,37 +56,142 @@
 	z-index: 1;
 }
 
-.buttons1 {
-	position: relative;
-	top: 150px;
-	left: 565px;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-}
-.buttons2 {
-	position: relative;
-	top: 150px;
-	left: 565px;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-}
-.buttons3 {
-	position: relative;
-	top: 150px;
-	left: 565px;
-	transform: translate(-50%, -50%);
-	z-index: 2;;
+@media screen and (max-width: 1280px) {
+	.stream {
+		width: 765px;
+		height: 640px;
+		top: 10%;
+		left: 20%;
+	}
+	.stream img{
+		width: 800px;
+		height: 600px;
+		margin-left: -10px;
+		bottom: 0;
+	}
+	.dropdown {
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }
 
-.button {
-	border: none;
-	color: white;
-	height: 250px;
-	width: 550px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
+@media screen and (max-width: 1024px) {
+	.stream {
+		width: 620px;
+		height: 520px;
+		top: 12%;
+		left: 20%;
+	}
+	.stream img{
+		width: 620px;
+		height: 490px;
+		margin-left: -10px;
+		bottom: 0;
+	}
+	.dropdown {
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.stream {
+		width: 410px;
+		height: 420px;
+		top: 11%;
+		left: 17.5%;
+	}
+	.stream img{
+		width: 410px;
+		height: 400px;
+		margin-left: -10px;
+		bottom: -1px;
+	}
+	.dropdown {
+		top: -10px;
+		font-size: 15px;
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+@media screen and (max-width: 414px) {
+	.stream {
+		width: 400px;
+		height: 525px;
+		top: 23.5%;
+		left: 1%;
+	}
+	.stream img{
+		width: 400px;
+		height: 505px;
+		margin-left: -10px;
+		bottom: -1px;
+	}
+	.dropdown {
+		top: -10px;
+		font-size: 15px;
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+@media screen and (max-width: 390px) {
+	.stream {
+		width: 380px;
+		height: 460px;
+		top: 25.5%;
+		left: 1%;
+	}
+	.stream img{
+		width: 380px;
+		height: 440px;
+		margin-left: -10px;
+		bottom: -1px;
+	}
+	.dropdown {
+		top: -10px;
+		font-size: 15px;
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+	.stream {
+		width: 400px;
+		height: 380px;
+		top: 28%;
+		left: 1%;
+	}
+	.stream img{
+		width: 400px;
+		height: 350px;
+		margin-left: -10px;
+		bottom: -1px;
+	}
+	.dropdown {
+		top: -10px;
+		font-size: 15px;
+		text-align: center;
+	}
+	.dropdown-content {
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }

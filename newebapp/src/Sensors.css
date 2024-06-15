@@ -82,3 +82,300 @@
 .sensor:hover .delete-sensor {
     opacity: 1;
 }
+
+@media screen and (max-width: 1280px) {
+    .sensor, .add-sensor {
+        width: 210px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    .sensor img, .add-sensor img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .sensors-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sensors-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-column-gap: 20px;
+        transition: transform 0.5s ease-in-out;
+        gap: 20px;
+    }
+
+    .delete-sensor {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sensor, .add-sensor {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .sensor, .add-sensor {
+        width: 175px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    .sensor img, .add-sensor img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .sensors-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sensors-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-column-gap: 20px;
+        transition: transform 0.5s ease-in-out;
+        gap: 20px;
+    }
+
+    .delete-sensor {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sensor, .add-sensor {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .sensor, .add-sensor {
+        width: 90px;
+        height: 95px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    .sensor img, .add-sensor img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 13px;
+    }
+
+    .title {
+        font-size: 13px;
+    }
+
+    .sensors-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sensors-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-column-gap: 20px;
+        transition: transform 0.5s ease-in-out;
+        gap: 10px;
+    }
+
+    .delete-sensor {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sensor, .add-sensor {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .sensor, .add-sensor {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    .sensor img, .add-sensor img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 13px;
+    }
+
+    .title {
+        font-size: 13px;
+    }
+
+    .sensors-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sensors-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-column-gap: 20px;
+        transition: transform 0.5s ease-in-out;
+        gap: 10px;
+    }
+
+    .delete-sensor {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sensor, .add-sensor {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .sensor, .add-sensor {
+        width: 100px;
+        height: 95px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    .sensor img, .add-sensor img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 13px;
+    }
+
+    .title {
+        font-size: 13px;
+    }
+
+    .sensors-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sensors-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-column-gap: 20px;
+        transition: transform 0.5s ease-in-out;
+        gap: 10px;
+    }
+
+    .delete-sensor {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .sensor, .add-sensor {
+        margin-top: 0;
+    }
+}

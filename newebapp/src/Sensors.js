@@ -30,13 +30,78 @@ const imageOptions = [
     // Add more image options here
 ];
 
+function requestSensorsData(ipServer) {
+    // richiest api
+
+    let exampleAPIAns = [
+        {
+            id: 1,
+            description: "Sensore DHT22",
+            values: [
+                {
+                    ValueNumber: 1,
+                    Name: "Temperature",
+                    NrDecimals: 0,
+                    Value: 35,
+                },
+                {
+                    ValueNumber: 2,
+                    Name: "Humidity",
+                    NrDecimals: 0,
+                    Value: 35,
+                },
+            ],
+        },
+    ];
+
+    let sensorsDataFormatted = []; // Initialize the array
+
+    let indexSensor = 0;
+
+    exampleAPIAns.forEach(function (elemento) {
+        console.log(elemento.description);
+
+        elemento.values.forEach(function (value) {
+            sensorsDataFormatted[indexSensor] = {}; // Initialize the object
+
+            sensorsDataFormatted[indexSensor].title = value.Name;
+
+            if (value.Name === "Temperature") {
+                sensorsDataFormatted[indexSensor].imageSrc = thermometer;
+                sensorsDataFormatted[indexSensor].imageAlt = "Temperature";
+            } else if (value.Name === "Humidity") {
+                sensorsDataFormatted[indexSensor].imageSrc = humidity;
+                sensorsDataFormatted[indexSensor].imageAlt = "Humidity";
+            } else {
+                sensorsDataFormatted[indexSensor].imageSrc = sensor;
+                sensorsDataFormatted[indexSensor].imageAlt = "Sensor";
+            }
+
+            sensorsDataFormatted[indexSensor].isOn = false;
+            sensorsDataFormatted[indexSensor].value = value.Value;
+
+            console.log("title: " + value.Name);
+            console.log("value: " + value.Value);
+            indexSensor++;
+        });
+
+        console.log(elemento.description);
+    });
+
+    return sensorsDataFormatted;
+}
+
 function Sensors({ isCol1Expanded }) {
-    const [sensors, setSensors] = useState(sensorTemplates);
+    console.log(requestSensorsData("192.168.0.102:8080"));
+    //const [sensors, setSensors] = useState(sensorTemplates);
+    const [sensors, setSensors] = useState(requestSensorsData("192.168.0.102:8080"));
     const addSensor = () => {
         const title = prompt("Enter the title for the new sensor:");
         if (title) {
-            const selectedImage = prompt("Select the image for the new sensor:\n\n" +
-                imageOptions.map((option, index) => `${index + 1}. ${option.alt}`).join("\n"));
+            const selectedImage = prompt(
+                "Select the image for the new sensor:\n\n" +
+                imageOptions.map((option, index) => `${index + 1}. ${option.alt}`).join("\n")
+            );
             if (selectedImage) {
                 const imageIndex = parseInt(selectedImage) - 1;
                 if (imageIndex >= 0 && imageIndex < imageOptions.length) {
@@ -94,4 +159,5 @@ function Sensors({ isCol1Expanded }) {
         </div>
     );
 }
+
 export default Sensors;

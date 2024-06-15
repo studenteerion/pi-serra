@@ -24,7 +24,7 @@ const Button = ({ id }) => {
             redirect: "follow"
         };
 
-        fetch(`http://192.168.112.55:8080/controls/${id}`, requestOptions)
+        fetch(`https://a9ce-37-159-24-2.ngrok-free.app/controls/${id}`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));

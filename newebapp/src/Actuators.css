@@ -78,3 +78,348 @@
 .actuator:hover .delete-actuator {
     opacity: 1;
 }
+
+@media screen and (max-width: 1280px) {
+    .actuator,.add-actuator {
+        width: 210px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 8px;
+        margin-top: 0;
+    }
+
+    .actuator img {
+        padding: 1px;
+        margin-left: 2px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        margin-bottom: -5px;
+    }
+
+    .add-actuator {
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-actuator img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto; /* Add this line to center the image horizontally */
+    }
+
+    .actuator h2,.add-actuator h2 {
+        margin-top: 2px;
+        font-size: 24px;
+    }
+
+    .actuators-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center; /* changed align-content to align-items */
+        flex-wrap: wrap;
+    }
+
+    .actuators-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* replaced grid-column-gap with gap */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .delete-actuator {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .actuator,.add-actuator {
+        width: 175px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 8px;
+        margin-top: 0;
+    }
+
+    .actuator img {
+        padding: 1px;
+        margin-left: 2px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        margin-bottom: -5px;
+    }
+
+    .add-actuator {
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-actuator img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto; /* Add this line to center the image horizontally */
+    }
+
+    .actuator h2,.add-actuator h2 {
+        margin-top: 2px;
+        font-size: 24px;
+    }
+
+    .actuators-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center; /* changed align-content to align-items */
+        flex-wrap: wrap;
+    }
+
+    .actuators-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* replaced grid-column-gap with gap */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .delete-actuator {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .actuator,.add-actuator {
+        width: 90px;
+        height: 95px;
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 8px;
+        margin-top: 0;
+    }
+
+    .actuator img {
+        padding: 1px;
+        margin-left: 2px;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        margin-bottom: -5px;
+    }
+
+    .add-actuator {
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-actuator img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto; /* Add this line to center the image horizontally */
+    }
+
+    .actuator h2,.add-actuator h2 {
+        margin-top: 2px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .actuators-container {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* changed align-content to align-items */
+        flex-wrap: wrap;
+    }
+
+    .actuators-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* replaced grid-column-gap with gap */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .delete-actuator {
+        cursor: pointer;
+        position: absolute;
+        top: -18px;
+        right: -18px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .actuator,.add-actuator {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 8px;
+        margin-top: 0;
+    }
+
+    .actuator img {
+        padding: 1px;
+        margin-left: 2px;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        margin-bottom: -5px;
+    }
+
+    .add-actuator {
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-actuator img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto; /* Add this line to center the image horizontally */
+    }
+
+    .actuator h2,.add-actuator h2 {
+        margin-top: 2px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .actuators-container {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* changed align-content to align-items */
+        flex-wrap: wrap;
+    }
+
+    .actuators-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* replaced grid-column-gap with gap */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .delete-actuator {
+        cursor: pointer;
+        position: absolute;
+        top: -16px;
+        right: -16px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .actuator,.add-actuator {
+        width: 100px;
+        height: 95px;
+        display: flex;
+        flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        padding: 8px;
+        margin-top: 0;
+    }
+
+    .actuator img {
+        padding: 1px;
+        margin-left: 2px;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        margin-bottom: -5px;
+    }
+
+    .add-actuator {
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-actuator img {
+        padding: 5px;
+        margin-left: 5px;
+        width: 60px;
+        height: 60px;
+        margin: 0 auto; /* Add this line to center the image horizontally */
+    }
+
+    .actuator h2,.add-actuator h2 {
+        margin-top: 2px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .actuators-container {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* changed align-content to align-items */
+        flex-wrap: wrap;
+    }
+
+    .actuators-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* replaced grid-column-gap with gap */
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .delete-actuator {
+        cursor: pointer;
+        position: absolute;
+        top: -16px;
+        right: -16px;
+        transform: scale(0.25);
+        z-index: 2;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
