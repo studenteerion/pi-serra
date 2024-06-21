@@ -30,9 +30,12 @@ const Button = ({title, value, progress, color}) => {
         console.log("Accendi/Spegni");
 
         try {
+            //Moodifico status attuatore a1736624-0f33-4c20-a04e-e8a6a059d2c4
             let risposta = await checkStatus("controls/a1736624-0f33-4c20-a04e-e8a6a059d2c4");
 
             const myHeaders = new Headers();
+
+            //Aggiungo chiave API e tipo di contenuto
             myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
             myHeaders.append("Content-Type", "application/json");
 
@@ -52,6 +55,7 @@ const Button = ({title, value, progress, color}) => {
             };
 
             const response = await fetch("http://localhost:8080/controls/a1736624-0f33-4c20-a04e-e8a6a059d2c4", requestOptions);
+            //Status del sensore
             const result = await response.text();
             console.log(result);
         } catch (error) {

@@ -1,5 +1,5 @@
 const users = require('../api_keys.json')
-
+//Controllo La chiave passata con quelle presenti nel file api_keys.json
 const authenticateKey = (req, res, next) => {
     let api_key = req.header("X-API-KEY");
     console.log(api_key);

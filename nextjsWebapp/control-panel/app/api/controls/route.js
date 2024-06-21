@@ -1,10 +1,53 @@
-const express = require('express');
-const router = express.Router();
-const actuatorData = require('../functions/get_json')
-const controls = require('../functions/change_status.js')
-const configManager = require('../functions/config_files_manager.js')
-const API = require('../functions/api_auth');
-const filePath = 'config_files/actuators_list.json';
+import { NextResponse } from "next/server"; //questo ci serve per gestire la risposta
+import connect from "@/libs/database"; //questo ci serve per connettere i vari metodi
+import data from "@/models/data"; //importiamo il modello Post da models/Post.ts
+import { Console } from "console";
+import exp from "constants";
+import configManager from "@/app/functions/config_files_manager";
+import actuatorData from "@/app/functions/actuator_data";
+
+export const GET = async (req) => { //Creiamo una funzione asincrona GET che prende come parametro req
+    const devices = await configManager.getAllDevices(filePath)
+    console.log(devices);
+    const response = []
+    for (const device of devices) {
+        console.log(device.url);
+        let data
+        let status = 'reachable';
+        try {
+            data = await actuatorData.sensorJSON(device.url)
+        } catch (err) {
+            console.error(`Could not fetch the device: ${err}`);
+            data = undefined
+            status = 'unreachable';
+        }
+        response.push({
+            id: device.id,
+            description: device.description,
+            status: status,
+            values: data
+        })
+    }
+
+    res.send(response)
+}
+
+export const POST = async (req) => { //Creiamo una funzione asincrona POST che prende come parametro req
+    const { description, url } = req.body;
+
+    try {
+        const id = await configManager.addUrl(filePath, description, url);
+        res.status(200).json({ message: 'URL added successfully', id });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: err.message });
+    }
+}
+
+
+
+
+
 //la roba commentata serve per swagger
 /**
  * @swagger
@@ -129,106 +172,3 @@ router.post('/', API.authenticateKey, async (req, res) => {
  *       '500':
  *         description: Internal Server Error.
  */
-
-router.get('/:id', API.authenticateKey, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const device = await configManager.getDeviceById(filePath, id)
-        const response = {
-            description: device.description,
-            values: await actuatorData.sensorJSON(device.url)
-        }
-        res.send(response)
-    } catch (error) {
-        res.status(401).send({ error: { code: 404, message: "Device not found." } });
-    }
-})
-
-/**
- * @swagger
- * /controls/{id}:
- *   put:
- *     summary: Update the status of an actuator.
- *     tags: [Controls]
- *     security:
- *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The ID of the actuator.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               status:
- *                 type: string
- *             required:
- *               - status
- *     responses:
- *       '200':
- *         description: Status changed successfully.
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: 'Status changed successfully'
- *       '400':
- *         description: Bad Request. The request body is not provided or not in the correct format.
- *       '401':
- *         description: Unauthorized. You are not allowed to access this resource.
- *       '500':
- *         description: Internal Server Error.
- */
-router.put('/:id', API.authenticateKey, async (req, res) => {
-    const { id } = req.params;
-    const { status } = req.body;
-
-    if (!status) {
-        res.status(400).send('Bad Request. The request body must be a JSON object with a "status" property.');
-        return;
-    }
-
-    console.log("Preparing");
-    const device = await configManager.getDeviceById(filePath, id)
-    await controls(device.url, status);
-    console.log("Updated successfully")
-    res.send('Status changed successfully');
-});
-
-
-/**
- * @swagger
- * /controls/{id}:
- *   delete:
- *     summary: Delete an actuator.
- *     tags: [Controls]
- *     security:
- *       - ApiKeyAuth: []  # Use the same arbitrary name you have given to the security scheme
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: The ID of the actuator to delete.
- *     responses:
- *       '200':
- *         description: Actuator deleted successfully.
- *       '401':
- *         description: Unauthorized. You are not allowed to access this resource.
- *       '500':
- *         description: Internal Server Error.
- */
-router.delete('/:id', API.authenticateKey, async (req, res) => {
-    const { id } = req.params;
-    await configManager.removeUrl(filePath, id);
-    res.send('Actuator deleted successfully');
-});
-
-module.exports = router

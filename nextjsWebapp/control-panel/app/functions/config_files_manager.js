@@ -69,4 +69,4 @@ async function getAllDevices(filePath) {
 }
 
 
-module.exports = { getDeviceById, addUrl, removeUrl, getAllDevices };
+module.exports = { getDeviceById, addUrl, removeUrl, getAllDevices};

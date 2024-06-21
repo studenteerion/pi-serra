@@ -1,5 +1,5 @@
 const axios = require("axios").create();
-
+//Passo indirizzo sensore e ritorno JSON
 async function sensorJSON(url) {
     try {
         const response = await axios({

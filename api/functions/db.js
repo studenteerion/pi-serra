@@ -14,6 +14,7 @@ async function connect() {
 }
 
 async function getData(getOne) {
+    //Leggo i Database e ritorno come json
     try {
         if (getOne) {
             json = await Sensor.findOne().sort({ Time: -1 });

@@ -1,5 +1,5 @@
 const axios = require("axios").create();
-
+//Accende spegne l'attuatore
 module.exports = async function changeStatus(url, status) {
     try {
         console.log(url);
