@@ -1,72 +1,40 @@
-import {useState} from 'react';
+import React, { useState } from 'react';
 import './Button.css';
 
-const Button = ({title, value, progress, color}) => {
+const Button = ({ id }) => {
+    const [status, setStatus] = useState(1);
 
-    async function checkStatus(id) {
-        console.log("checkStatus");
+    function handleTestAccendi() {
+        const newStatus = status === 1 ? 0 : 1;
 
         const myHeaders = new Headers();
         myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "status": newStatus.toString()
+        });
+
+        console.log(raw);
 
         const requestOptions = {
-            method: "GET",
+            method: "PUT",
             headers: myHeaders,
+            body: raw,
             redirect: "follow"
         };
 
-        try {
-            const response = await fetch(`http://localhost:8080/${id}`, requestOptions);
-            const data = await response.json();
-            console.log(data.values[0].Value);
-            return data.values[0].Value; // Return the value
-        } catch (error) {
-            console.error(error);
-            throw error; // Throw the error to be caught by the caller
-        }
+        fetch(`https://a9ce-37-159-24-2.ngrok-free.app/controls/${id}`, requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+
+        setStatus(newStatus);
     }
-
-    async function handleTestAccendi() {
-        console.log("Accendi/Spegni");
-
-        try {
-            //Moodifico status attuatore a1736624-0f33-4c20-a04e-e8a6a059d2c4
-            let risposta = await checkStatus("controls/a1736624-0f33-4c20-a04e-e8a6a059d2c4");
-
-            const myHeaders = new Headers();
-
-            //Aggiungo chiave API e tipo di contenuto
-            myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
-            myHeaders.append("Content-Type", "application/json");
-
-            let status = risposta   == "0" ? "1" : "0";
-
-            console.log(status)
-
-            const raw = JSON.stringify({
-                "status": `${status}`
-            });
-
-            const requestOptions = {
-                method: "PUT",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow"
-            };
-
-            const response = await fetch("http://localhost:8080/controls/a1736624-0f33-4c20-a04e-e8a6a059d2c4", requestOptions);
-            //Status del sensore
-            const result = await response.text();
-            console.log(result);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
 
     return (
         <div className="Actuators-container">
-            <button onClick={handleTestAccendi}>Accendi/Spegni</button>
+            <button onClick={handleTestAccendi}>On/Off</button>
         </div>
     );
 };

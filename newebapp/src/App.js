@@ -1,22 +1,19 @@
 import './App.css';
-import Cam from './Cam';
-import Header from "./header";
-import Columns from "./Columns";
-import Sensors from "./Sensors";
-import Actuators from "./Actuators";
-import Button from './Button';
-
+import Header from "./Header";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Home from './Home';
+import Graphs from "./Graphs";
 
 function App() {
     return (
-        <>
-            <Header/>
-            <Cam />
-            <Columns/>
-            {/*<Sensors />*/}
-            {/*<Actuators />*/}
-            {/*<Button />*/}
-        </>
+        <Router>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/Graphs" element={<Graphs />} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </Router>
     );
 }
 

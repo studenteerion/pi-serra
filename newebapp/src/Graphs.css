@@ -1,0 +1,59 @@
+.graph-container {
+    margin: 0 auto;
+    border-radius: 25px;
+    padding: 10px;
+    width: 98%;
+    height: 850px;
+    position: absolute;
+    top: 8%;
+    left: 1%;
+    text-align: center;
+    -webkit-box-shadow: 4px 30px 30px -10px #000000;
+    -moz-box-shadow: 4px 5px 30px -10px #000000;
+    -o-box-shadow: 4px 5px 30px -10px #000000;
+    box-shadow: 0px 0px 30px -10px #000000;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    opacity: 100%;
+}
+
+.select-container {
+    gap: 10px; /* Space between dropdowns */
+}
+
+.select-container select {
+    margin: 0 20px; /* Add margin to each dropdown */
+    padding: 8px; /* Add padding inside the dropdown */
+    border: 2px solid black; /* Border color and width */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #ffffff; /* Background color */
+    font-size: 16px; /* Font size */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for better contour effect */
+    outline: none; /* Remove default focus outline */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+.select-container select:focus {
+    border-color: #0056b3; /* Border color when focused */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Optional: shadow for focus state */
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.no-data-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 140px;
+    color: #999;
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: Adds a semi-transparent background */
+    padding: 10px;
+    border-radius: 5px;
+}
