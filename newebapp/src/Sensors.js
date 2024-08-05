@@ -9,6 +9,7 @@ import AddPopup from "./AddPopup";
 
 const RASPBERRYADDRESS = "generally-enormous-snapper.ngrok-free.app";
 
+// Template di esempio per i sensori
 const sensorTemplates = [
   {
     title: "Temperature",
@@ -26,17 +27,18 @@ const sensorTemplates = [
   },
 ];
 
+// Opzioni di immagine per i sensori
 const imageOptions = [
   { src: thermometer, alt: "Thermometer" },
   { src: humidity, alt: "Humidity" },
   { src: sensor, alt: "Sensor" },
-  // Add more image options here
+  // Aggiungi ulteriori opzioni di immagine qui
 ];
 
-// Define the function as async to enable use of await
+// Funzione asincrona per richiedere i dati dei sensori
 async function requestSensorsData(ipServer) {
   try {
-    // Make the API request and await its completion
+    // Effettua la richiesta API e attendi il suo completamento
     const response = await fetch(`http://${ipServer}/sensors`, {
       method: "GET",
       headers: {
@@ -46,15 +48,15 @@ async function requestSensorsData(ipServer) {
       },
     });
 
-    // Check if the response is okay
+    // Controlla se la risposta è valida
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Parse the response as JSON
+    // Parsecella risposta come JSON
     let data = await response.json();
 
-    // Toggle simulation mode as needed
+    // Toggle per la modalità simulazione
     let simulationmode = true;
 
     if (simulationmode) {
@@ -67,7 +69,7 @@ async function requestSensorsData(ipServer) {
               ValueNumber: 1,
               Name: "Temperature",
               NrDecimals: 0,
-              Value: 35,
+              Value: 36,
             },
             {
               ValueNumber: 2,
@@ -82,25 +84,25 @@ async function requestSensorsData(ipServer) {
       data = exampleAPIAns;
     }
 
-    console.log(data); // Log the data received from the API to the console
+    console.log(data); // Log dei dati ricevuti dall'API
 
-    // Initialize the array to hold formatted sensor data
+    // Inizializza l'array per contenere i dati formattati dei sensori
     let sensorsDataFormatted = [];
 
-    // Initialize the index for sensors
+    // Indice per i sensori
     let indexSensor = 0;
 
-    // Iterate over each sensor object in the data array
+    // Itera su ogni oggetto sensore nell'array dei dati
     data.forEach(function (sensor) {
       console.log(sensor.description);
 
-      // Iterate over each value object in the values array of the sensor
+      // Itera su ogni valore nell'array dei valori del sensore
       sensor.values.forEach(function (value) {
-        sensorsDataFormatted[indexSensor] = {}; // Initialize the object
+        sensorsDataFormatted[indexSensor] = {}; // Inizializza l'oggetto
 
         sensorsDataFormatted[indexSensor].title = value.Name;
 
-        // Assign appropriate images based on the value name
+        // Assegna le immagini appropriate basandosi sul nome del valore
         if (value.Name === "Temperature") {
           sensorsDataFormatted[indexSensor].imageSrc = thermometer;
           sensorsDataFormatted[indexSensor].imageAlt = "Temperature";
@@ -112,46 +114,51 @@ async function requestSensorsData(ipServer) {
           sensorsDataFormatted[indexSensor].imageAlt = "Sensor";
         }
 
-        // Assign other properties
+        // Assegna altre proprietà
         sensorsDataFormatted[indexSensor].isOn = false;
         sensorsDataFormatted[indexSensor].value = value.Value;
 
         console.log("title: " + value.Name);
         console.log("value: " + value.Value);
 
-        // Increment the sensor index
+        // Incrementa l'indice del sensore
         indexSensor++;
       });
 
       console.log(sensor.description);
     });
 
-    // Return the formatted sensor data
+    // Ritorna i dati dei sensori formattati
     return sensorsDataFormatted;
   } catch (error) {
-    // Log any errors that occur during the fetch or processing
+    // Log degli errori che occorrono durante il fetch o il processing
     console.error("Error:", error);
     return [];
   }
 }
 
 function Sensors({ isCol1Expanded }) {
-  // Use state to manage sensors data
+  // Stato per gestire i dati dei sensori
   const [sensors, setSensors] = useState([]);
 
-  // Use state to manage the popup visibility
+  // Stato per gestire la visibilità del popup
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
-  // Use effect to fetch data when the component mounts
+  // Effettua il fetch dei dati quando il componente si monta e ogni 10 secondi
   useEffect(() => {
-    // Define an async function to fetch the sensors data
+    // Funzione asincrona per il fetch dei dati
     const fetchSensors = async () => {
       const sensorData = await requestSensorsData(RASPBERRYADDRESS);
-      setSensors(sensorData); // Set the fetched data to state
+      setSensors(sensorData); // Aggiorna lo stato con i dati ricevuti
     };
 
-    fetchSensors(); // Call the async function
-  }, []); // Empty dependency array means this runs once on component mount
+    fetchSensors(); // Effettua il fetch iniziale
+
+    const interval = setInterval(fetchSensors, 10000); // Imposta l'intervallo di 10 secondi
+
+    // Pulisce l'intervallo quando il componente si smonta
+    return () => clearInterval(interval);
+  }, []); // Array vuoto significa che l'effetto si esegue una volta al montaggio
 
   const addSensor = () => {
     setIsPopupVisible(true);
