@@ -36,97 +36,112 @@ const imageOptions = [
     // Add more image options here
 ];
 
-function requestSensorsData(ipServer) {
-    // richiest api
+// Define the function as async to enable use of await
+async function requestSensorsData(ipServer) {
     try {
-        const response = fetch(`http://${ipServer}/sensors`, {
+        // Make the API request and await its completion
+        const response = await fetch(`http://${ipServer}/sensors`, {
             method: 'GET',
             headers: {
                 'Accept': '*/*',
                 'X-API-KEY': '9mns924xqak1nkqmkjnpas01742bsino',
                 'ngrok-skip-browser-warning': '69420',
             },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data); // log the data recived from the api to the console
-                // where data is an array of objects
-
-
-
-
-
-                return data;
-            })
-            .catch(error => console.error('Error:', error));
-    } catch (error) {
-        console.error('Error:', error);
-    }
-
-
-    let exampleAPIAns = [
-        {
-            id: 1,
-            description: "Sensore DHT22",
-            values: [
-                {
-                    ValueNumber: 1,
-                    Name: "Temperature",
-                    NrDecimals: 0,
-                    Value: 35,
-                },
-                {
-                    ValueNumber: 2,
-                    Name: "Humidity",
-                    NrDecimals: 0,
-                    Value: 35,
-                },
-            ],
-        },
-    ];
-
-    let sensorsDataFormatted = []; // Initialize the array
-
-    let indexSensor = 0;
-
-    exampleAPIAns.forEach(function (elemento) {
-        console.log(elemento.description);
-
-        elemento.values.forEach(function (value) {
-            sensorsDataFormatted[indexSensor] = {}; // Initialize the object
-
-            sensorsDataFormatted[indexSensor].title = value.Name;
-
-            // for the image of the sensor
-            if (value.Name === "Temperature") {
-                sensorsDataFormatted[indexSensor].imageSrc = thermometer;
-                sensorsDataFormatted[indexSensor].imageAlt = "Temperature";
-            } else if (value.Name === "Humidity") {
-                sensorsDataFormatted[indexSensor].imageSrc = humidity;
-                sensorsDataFormatted[indexSensor].imageAlt = "Humidity";
-            } else {
-                sensorsDataFormatted[indexSensor].imageSrc = sensor;
-                sensorsDataFormatted[indexSensor].imageAlt = "Sensor";
-            }
-
-            sensorsDataFormatted[indexSensor].isOn = false;
-            sensorsDataFormatted[indexSensor].value = value.Value;
-
-            console.log("title: " + value.Name);
-            console.log("value: " + value.Value);
-            indexSensor++;
         });
 
-        console.log(elemento.description);
-    });
+        // Check if the response is okay
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-    return sensorsDataFormatted;
+        // Parse the response as JSON
+        let data = await response.json();
+        
+        
+        let simulationmode = true;
+
+        if(simulationmode){
+            let exampleAPIAns = [
+                {
+                    id: 1,
+                    description: "Sensore DHT22",
+                    values: [
+                        {
+                            ValueNumber: 1,
+                            Name: "Temperature",
+                            NrDecimals: 0,
+                            Value: 35,
+                        },
+                        {
+                            ValueNumber: 2,
+                            Name: "Humidity",
+                            NrDecimals: 0,
+                            Value: 35,
+                        },
+                    ],
+                },
+            ];
+
+
+            data = exampleAPIAns;
+
+        }
+
+
+        console.log(data); // Log the data received from the API to the console
+
+        
+        // Initialize the array to hold formatted sensor data
+        let sensorsDataFormatted = [];
+        
+        // Initialize the index for sensors
+        let indexSensor = 0;
+
+        // Iterate over each sensor object in the data array
+        data.forEach(function (sensor) {
+            console.log(sensor.description);
+
+            // Iterate over each value object in the values array of the sensor
+            sensor.values.forEach(function (value) {
+                sensorsDataFormatted[indexSensor] = {}; // Initialize the object
+
+                sensorsDataFormatted[indexSensor].title = value.Name;
+
+                // Assign appropriate images based on the value name
+                if (value.Name === "Temperature") {
+                    sensorsDataFormatted[indexSensor].imageSrc = thermometer;
+                    sensorsDataFormatted[indexSensor].imageAlt = "Temperature";
+                } else if (value.Name === "Humidity") {
+                    sensorsDataFormatted[indexSensor].imageSrc = humidity;
+                    sensorsDataFormatted[indexSensor].imageAlt = "Humidity";
+                } else {
+                    sensorsDataFormatted[indexSensor].imageSrc = sensor;
+                    sensorsDataFormatted[indexSensor].imageAlt = "Sensor";
+                }
+
+                // Assign other properties
+                sensorsDataFormatted[indexSensor].isOn = false;
+                sensorsDataFormatted[indexSensor].value = value.Value;
+
+                console.log("title: " + value.Name);
+                console.log("value: " + value.Value);
+
+                // Increment the sensor index
+                indexSensor++;
+            });
+
+            console.log(sensor.description);
+        });
+
+        // Return the formatted sensor data
+        return sensorsDataFormatted;
+    } catch (error) {
+        // Log any errors that occur during the fetch or processing
+        console.error('Error:', error);
+        return [];
+    }
 }
+
 
 function Sensors({ isCol1Expanded }) {
     console.log(requestSensorsData(RASPBERRYADDRESS));
