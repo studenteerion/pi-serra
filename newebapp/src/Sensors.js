@@ -7,6 +7,11 @@ import sensor from "./images/sensor.png";
 import remove from "./images/delete.png";
 import AddPopup from "./AddPopup";
 
+
+
+const RASPBERRYADDRESS = "generally-enormous-snapper.ngrok-free.app";
+
+
 let sensorTemplates = [
     {
         title: "Temperature",
@@ -33,6 +38,36 @@ const imageOptions = [
 
 function requestSensorsData(ipServer) {
     // richiest api
+    try {
+        const response = fetch(`http://${ipServer}/sensors`, {
+            method: 'GET',
+            headers: {
+                'Accept': '*/*',
+                'X-API-KEY': '9mns924xqak1nkqmkjnpas01742bsino',
+                'ngrok-skip-browser-warning': '69420',
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // log the data recived from the api to the console
+                // where data is an array of objects
+
+
+
+
+
+                return data;
+            })
+            .catch(error => console.error('Error:', error));
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
 
     let exampleAPIAns = [
         {
@@ -67,6 +102,7 @@ function requestSensorsData(ipServer) {
 
             sensorsDataFormatted[indexSensor].title = value.Name;
 
+            // for the image of the sensor
             if (value.Name === "Temperature") {
                 sensorsDataFormatted[indexSensor].imageSrc = thermometer;
                 sensorsDataFormatted[indexSensor].imageAlt = "Temperature";
@@ -93,9 +129,9 @@ function requestSensorsData(ipServer) {
 }
 
 function Sensors({ isCol1Expanded }) {
-    console.log(requestSensorsData("192.168.0.102:8080"));
+    console.log(requestSensorsData(RASPBERRYADDRESS));
     //const [sensors, setSensors] = useState(sensorTemplates);
-    const [sensors, setSensors] = useState(requestSensorsData("192.168.0.102:8080"));
+    const [sensors, setSensors] = useState(requestSensorsData(RASPBERRYADDRESS));
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 

@@ -9,6 +9,7 @@ async function fetchData() {
 
     const myHeaders = new Headers();
     myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
+    myHeaders.append("ngrok-skip-browser-warning", "69420")
 
     const requestOptions = {
         method: "GET",
@@ -17,7 +18,7 @@ async function fetchData() {
     };
 
     try {
-        const response = await fetch(`http://192.168.1.5:8080/sensors/db-data/all`, requestOptions);
+        const response = await fetch(`https://generally-enormous-snapper.ngrok-free.app/sensors/db-data/all`, requestOptions);
         const data = await response.json();
         return data;
     } catch (error) {
