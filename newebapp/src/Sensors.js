@@ -57,7 +57,7 @@ async function requestSensorsData(ipServer) {
     let data = await response.json();
 
     // Toggle per la modalità simulazione
-    let simulationmode = true;
+    let simulationmode = false;
 
     if (simulationmode) {
       let exampleAPIAns = [
