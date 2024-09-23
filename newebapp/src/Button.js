@@ -10,6 +10,7 @@ const Button = ({ id }) => {
         const myHeaders = new Headers();
         myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("ngrok-skip-browser-warning", "69420");
 
         const raw = JSON.stringify({
             "status": newStatus.toString()
@@ -24,7 +25,7 @@ const Button = ({ id }) => {
             redirect: "follow"
         };
 
-        fetch(`https://a9ce-37-159-24-2.ngrok-free.app/controls/${id}`, requestOptions)
+        fetch(`https://generally-enormous-snapper.ngrok-free.app/controls/${id}`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
