@@ -11,6 +11,9 @@ import add from "./images/add.png";
 import remove from "./images/delete.png";
 import AddPopup from "./AddPopup";
 
+const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = process.env.REACT_APP_API_URL;
+
 var actuatorTemplates = [
     {
         title: "Light",
@@ -86,35 +89,6 @@ function Actuators({isCol2Expanded}) {
         });
     };
 
-
-    /*const addActuator = () => {
-        const title = prompt("Enter the title for the new actuator:");
-        if (title) {
-            const selectedImage = prompt("Select the image for the new actuator:\n\n" +
-                imageOptions.map((option, index) => `${index + 1}. ${option.alt}`).join("\n"));
-            if (selectedImage) {
-                const imageIndex = parseInt(selectedImage) - 1;
-                if (imageIndex >= 0 && imageIndex < imageOptions.length) {
-                    const ip = prompt("Enter the IP for the new actuator:");
-                    if (ip) {
-                        const newActuator = {
-                            title: title,
-                            imageSrc: imageOptions[imageIndex].src,
-                            imageAlt: imageOptions[imageIndex].alt,
-                            isOn: false,
-                            ip: ip,
-                        };
-                        setActuators((prevActuators) => [...prevActuators, newActuator]);
-                    } else {
-                        alert("Invalid IP.");
-                    }
-                } else {
-                    alert("Invalid image selection.");
-                }
-            }
-        }
-    };*/
-
     const deleteActuator = (index, id) => {
         setActuators((prevSensors) => {
             const updatedSensors = [...prevSensors];
@@ -122,11 +96,11 @@ function Actuators({isCol2Expanded}) {
             return updatedSensors;
         });
 
-        fetch(`http://192.168.103.51:8080/controls/${id}`, {
+        fetch(`http://${apiUrl}/controls/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': '*/*',
-                'X-API-KEY': '9mns924xqak1nkqmkjnpas01742bsino'
+                'X-API-KEY': `${apiKey}`
             }
         })
             .then(response => {

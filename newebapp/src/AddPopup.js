@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import "./AddPopup.css";
 
+const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = process.env.REACT_APP_API_URL;
+
+
 function addElement (type, name, ip) {
 
     let route = "";
 
     if (type === "Sensor") {
-         route = "http://192.168.1.5:8080/sensors/";
+         route = `http://${apiUrl}:8080/sensors/`;
     } else if (type === "Actuator") {
-         route = "http://192.168.1.5:8080/controls/";
+         route = `http://${apiUrl}:8080/controls/`;
     }
 
     const myHeaders = new Headers();
-    myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
+    myHeaders.append("x-api-key", `${apiKey}`);
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({

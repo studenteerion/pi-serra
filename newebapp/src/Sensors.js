@@ -7,7 +7,11 @@ import sensor from "./images/sensor.png";
 import remove from "./images/delete.png";
 import AddPopup from "./AddPopup";
 
-const RASPBERRYADDRESS = "192.168.103.51:8080";
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const RASPBERRYADDRESS = `${apiUrl}:8080`;
+
+const apiKey = process.env.REACT_APP_API_KEY;
 
 // Template di esempio per i sensori
 const sensorTemplates = [
@@ -43,7 +47,7 @@ async function requestSensorsData(ipServer) {
       method: "GET",
       headers: {
         Accept: "*/*",
-        "X-API-KEY": "9mns924xqak1nkqmkjnpas01742bsino",
+        "X-API-KEY": `${apiKey}`,
         //"ngrok-skip-browser-warning": "69420",
       },
     });
@@ -169,7 +173,7 @@ function Sensors({ isCol1Expanded }) {
   };
 
   const deleteSensor = (index, id) => {
-    let ip = "192.168.1.5";
+    let ip = `${apiUrl}`;
 
     setSensors((prevSensors) => {
       const updatedSensors = [...prevSensors];
@@ -181,7 +185,7 @@ function Sensors({ isCol1Expanded }) {
       method: "DELETE",
       headers: {
         Accept: "*/*",
-        "X-API-KEY": "9mns924xqak1nkqmkjnpas01742bsino",
+        "X-API-KEY": `${apiKey}`,
       },
     })
       .then((response) => {

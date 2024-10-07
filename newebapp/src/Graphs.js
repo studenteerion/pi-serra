@@ -11,10 +11,13 @@ import {
 } from 'chart.js';
 import Header from "./Header";
 
+const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = process.env.REACT_APP_API_URL;
+
 // Fetch all data from the API
 async function fetchData() {
   const myHeaders = new Headers();
-  myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
+  myHeaders.append("x-api-key", `${apiKey}`);
   //myHeaders.append("ngrok-skip-browser-warning", "69420");
 
   const requestOptions = {
@@ -25,7 +28,7 @@ async function fetchData() {
 
   try {
     const response = await fetch(
-      `https://192.168.130.51:8080`,
+      `http://${apiUrl}:8080`,
       requestOptions
     );
     const data = await response.json();

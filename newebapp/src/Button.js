@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './Button.css';
 
+const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const Button = ({ id }) => {
     const [status, setStatus] = useState(1);
 
@@ -8,7 +11,7 @@ const Button = ({ id }) => {
         const newStatus = status === 1 ? 0 : 1;
 
         const myHeaders = new Headers();
-        myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
+        myHeaders.append("x-api-key", `${apiKey}`);
         myHeaders.append("Content-Type", "application/json");
 	//myHeaders.append("ngrok-skip-browser-warning", "69420");
 
@@ -25,7 +28,7 @@ const Button = ({ id }) => {
             redirect: "follow"
         };
 
-        fetch(`http://192.168.103.51:8080/controls/${id}`, requestOptions)
+        fetch(`http://${apiUrl}:8080/controls/${id}`, requestOptions)
             .then((response) => response.text())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
