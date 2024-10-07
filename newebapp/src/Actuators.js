@@ -122,7 +122,7 @@ function Actuators({isCol2Expanded}) {
             return updatedSensors;
         });
 
-        fetch(`http://192.168.1.5:8080/controls/${id}`, {
+        fetch(`http://192.168.103.51:8080/controls/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': '*/*',

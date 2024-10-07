@@ -7,7 +7,7 @@ import sensor from "./images/sensor.png";
 import remove from "./images/delete.png";
 import AddPopup from "./AddPopup";
 
-const RASPBERRYADDRESS = "generally-enormous-snapper.ngrok-free.app";
+const RASPBERRYADDRESS = "192.168.103.51:8080";
 
 // Template di esempio per i sensori
 const sensorTemplates = [
@@ -44,7 +44,7 @@ async function requestSensorsData(ipServer) {
       headers: {
         Accept: "*/*",
         "X-API-KEY": "9mns924xqak1nkqmkjnpas01742bsino",
-        "ngrok-skip-browser-warning": "69420",
+        //"ngrok-skip-browser-warning": "69420",
       },
     });
 

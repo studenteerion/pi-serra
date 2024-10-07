@@ -15,7 +15,7 @@ import Header from "./Header";
 async function fetchData() {
   const myHeaders = new Headers();
   myHeaders.append("x-api-key", "9mns924xqak1nkqmkjnpas01742bsino");
-  myHeaders.append("ngrok-skip-browser-warning", "69420");
+  //myHeaders.append("ngrok-skip-browser-warning", "69420");
 
   const requestOptions = {
     method: "GET",
@@ -25,7 +25,7 @@ async function fetchData() {
 
   try {
     const response = await fetch(
-      `https://generally-enormous-snapper.ngrok-free.app/sensors/db-data/all`,
+      `https://192.168.130.51:8080`,
       requestOptions
     );
     const data = await response.json();
@@ -70,6 +70,7 @@ const filterDataByTime = (data, timeFilter) => {
 
 // Function to adapt the fetched data for Chart.js
 const adaptData = (data) => {
+  // Map the data to a common format
   const filteredData = data.map((entry) => {
     const temperatureValue =
       entry.valueList.find((item) => item.description === 'Temperature')?.value || 0;
@@ -97,8 +98,6 @@ const Graphs = () => {
   const chartInstanceRef = useRef(null);
   const [timeFilter, setTimeFilter] = useState('last-hour');
   const [chartData, setChartData] = useState({ labels: [], temperatureData: [], humidityData: [], fullData: [] });
-  const [showTemperature, setShowTemperature] = useState(true);
-  const [showHumidity, setShowHumidity] = useState(true);
 
   const loadData = async () => {
     const fetchedData = await fetchData();
@@ -136,35 +135,28 @@ const Graphs = () => {
       chartInstanceRef.current.destroy();
     }
 
-    const datasets = [];
-
-    if (showTemperature) {
-      datasets.push({
-        label: 'Temperature',
-        data: chartData.temperatureData,
-        fill: false,
-        borderColor: 'rgb(153, 102, 255)', // Purple color
-        tension: 0.1,
-        yAxisID: 'y',
-      });
-    }
-
-    if (showHumidity) {
-      datasets.push({
-        label: 'Humidity',
-        data: chartData.humidityData,
-        fill: false,
-        borderColor: 'rgb(54, 162, 235)', // Blue color
-        tension: 0.1,
-        yAxisID: 'y1',
-      });
-    }
-
     chartInstanceRef.current = new Chart(ctx, {
       type: 'line',
       data: {
         labels: chartData.labels,
-        datasets: datasets,
+        datasets: [
+          {
+            label: 'Temperature',
+            data: chartData.temperatureData,
+            fill: false,
+            borderColor: 'rgb(153, 102, 255)', // Purple color
+            tension: 0.1,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Humidity',
+            data: chartData.humidityData,
+            fill: false,
+            borderColor: 'rgb(54, 162, 235)', // Blue color
+            tension: 0.1,
+            yAxisID: 'y1',
+          },
+        ],
       },
       options: {
         maintainAspectRatio: false,
@@ -221,18 +213,10 @@ const Graphs = () => {
         },
       },
     });
-  }, [chartData, showTemperature, showHumidity]);
+  }, [chartData]);
 
   const handleTimeFilterChange = (e) => {
     setTimeFilter(e.target.value);
-  };
-
-  const handleShowTemperatureChange = () => {
-    setShowTemperature((prev) => !prev);
-  };
-
-  const handleShowHumidityChange = () => {
-    setShowHumidity((prev) => !prev);
   };
 
   const hasData = chartData.temperatureData.length > 0 || chartData.humidityData.length > 0;
@@ -251,24 +235,6 @@ const Graphs = () => {
             <option value="last-three-months">Last 3 Months</option>
             <option value="all">All</option>
           </select>
-        </div>
-        <div className="checkbox-container">
-          <label>
-            <input
-              type="checkbox"
-              checked={showTemperature}
-              onChange={handleShowTemperatureChange}
-            />
-            Show Temperature
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={showHumidity}
-              onChange={handleShowHumidityChange}
-            />
-            Show Humidity
-          </label>
         </div>
         <div className="chart-wrapper">
           <canvas ref={chartRef} />
