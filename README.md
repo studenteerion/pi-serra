@@ -11,3 +11,11 @@ An API for using sensors and actuators connected to the network via ESP with a d
 ## Screenshots
 ![A screenshot of the dashboard](./newebapp_mockup_screenshots/Screenshot%202024-05-18%20231354.png)
 ![Screenshot](newebapp_mockup_screenshots/Screenshot%202024-05-18%20231649.png)
+
+## How to use pi-serra in your greenhosue
+- Connect your sensors to ESP
+- Install the pi-serra APIs on the raspberry
+- [Facultative] Install the pi-serra webapp
+- [Facultative] Install a camera into your serra
+- Connect the ESPs to the same network of the Raspberry where pi-serra is installed
+- Set the ip adresses of the ESPs in the .env file
